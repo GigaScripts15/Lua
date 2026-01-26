@@ -1,4 +1,4 @@
--- BoladoHub v1.2 - DRAG FUNCIONAL GARANTIDO
+-- BoladoHub v1.3 - Visual Original + Touch
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -22,10 +22,34 @@ local boladolib = {
 			["Color Theme"] = Color3.fromRGB(88, 101, 242),
 			["Color Text"] = Color3.fromRGB(243, 243, 243),
 			["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
+		},
+		Dark = {
+			["Color Hub 1"] = ColorSequence.new({
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 40, 40)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(47.5, 47.5, 47.5)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 40, 40))
+			}),
+			["Color Hub 2"] = Color3.fromRGB(45, 45, 45),
+			["Color Stroke"] = Color3.fromRGB(65, 65, 65),
+			["Color Theme"] = Color3.fromRGB(65, 150, 255),
+			["Color Text"] = Color3.fromRGB(245, 245, 245),
+			["Color Dark Text"] = Color3.fromRGB(190, 190, 190)
+		},
+		Purple = {
+			["Color Hub 1"] = ColorSequence.new({
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(27.5, 25, 30)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(32.5, 32.5, 32.5)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(27.5, 25, 30))
+			}),
+			["Color Hub 2"] = Color3.fromRGB(30, 30, 30),
+			["Color Stroke"] = Color3.fromRGB(40, 40, 40),
+			["Color Theme"] = Color3.fromRGB(150, 0, 255),
+			["Color Text"] = Color3.fromRGB(240, 240, 240),
+			["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
 		}
 	},
 	Info = {
-		Version = "1.2.0"
+		Version = "1.3.0"
 	},
 	Save = {
 		UISize = {550, 380},
@@ -49,89 +73,102 @@ local boladolib = {
 	}
 }
 
--- SISTEMA DE DRAG FUNCIONAL 100%
-local function CreateDraggableWindow(frame, dragHandle)
+-- SISTEMA DE TOUCH/MOUSE UNIVERSAL
+local function CreateDraggable(frame, handle)
 	local dragging = false
-	local dragStart = Vector2.new(0, 0)
-	local frameStart = UDim2.new(0, 0, 0, 0)
+	local dragInput, dragStart, startPos
 	
-	-- Conectar para MOUSE
-	dragHandle.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = true
-			dragStart = Vector2.new(PlayerMouse.X, PlayerMouse.Y)
-			frameStart = frame.Position
+	-- Função para iniciar drag (Mouse + Touch)
+	local function BeginDrag(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or 
+		   input.UserInputType == Enum.UserInputType.Touch then
 			
-			print("🖱️ DRAG INICIADO - Mouse pressionado")
-			
-			-- Efeito visual
-			TweenService:Create(dragHandle, TweenInfo.new(0.1), {
-				BackgroundTransparency = 0.4
-			}):Play()
-		end
-	end)
-	
-	-- Conectar para TOUCH (mobile)
-	dragHandle.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
 			dragStart = input.Position
-			frameStart = frame.Position
+			startPos = frame.Position
 			
-			print("👆 DRAG INICIADO - Touch iniciado")
+			-- Efeito visual
+			TweenService:Create(handle, TweenInfo.new(0.1), {
+				BackgroundTransparency = 0.3
+			}):Play()
+			
+			-- Capturar o final do input
+			local connection
+			connection = input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+					connection:Disconnect()
+					
+					TweenService:Create(handle, TweenInfo.new(0.1), {
+						BackgroundTransparency = 0
+					}):Play()
+				end
+			end)
+		end
+	end
+	
+	-- Função para atualizar posição
+	local function UpdateDrag(input)
+		if dragging then
+			local delta = input.Position - dragStart
+			frame.Position = UDim2.new(
+				startPos.X.Scale,
+				startPos.X.Offset + delta.X,
+				startPos.Y.Scale,
+				startPos.Y.Offset + delta.Y
+			)
+		end
+	end
+	
+	-- Conectar eventos
+	handle.InputBegan:Connect(BeginDrag)
+	
+	handle.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or 
+		   input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
 		end
 	end)
 	
-	-- Sistema de atualização usando RenderStepped (GARANTIDO)
+	-- Usar InputChanged para melhor compatibilidade
+	UserInputService.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			UpdateDrag(input)
+		end
+	end)
+	
+	-- Sistema alternativo usando RenderStepped (para garantir)
 	local dragConnection
 	dragConnection = RunService.RenderStepped:Connect(function()
 		if dragging then
-			-- Para MOUSE
+			-- Para mouse
 			if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
-				local currentMouse = Vector2.new(PlayerMouse.X, PlayerMouse.Y)
-				local delta = currentMouse - dragStart
-				
+				local mousePos = Vector2.new(PlayerMouse.X, PlayerMouse.Y)
+				local delta = mousePos - dragStart
 				frame.Position = UDim2.new(
-					frameStart.X.Scale,
-					frameStart.X.Offset + delta.X,
-					frameStart.Y.Scale,
-					frameStart.Y.Offset + delta.Y
+					startPos.X.Scale,
+					startPos.X.Offset + delta.X,
+					startPos.Y.Scale,
+					startPos.Y.Offset + delta.Y
 				)
 			end
 			
-			-- Para TOUCH
+			-- Para touch
 			local touchPoints = UserInputService:GetConnectedTouchPoints()
-			if #touchPoints > 0 and dragging then
-				local touch = touchPoints[1]
-				local delta = touch.Position - dragStart
-				
+			if #touchPoints > 0 then
+				local touchPos = touchPoints[1].Position
+				local delta = touchPos - dragStart
 				frame.Position = UDim2.new(
-					frameStart.X.Scale,
-					frameStart.X.Offset + delta.X,
-					frameStart.Y.Scale,
-					frameStart.Y.Offset + delta.Y
+					startPos.X.Scale,
+					startPos.X.Offset + delta.X,
+					startPos.Y.Scale,
+					startPos.Y.Offset + delta.Y
 				)
 			end
 		end
 	end)
 	
-	-- Parar drag quando soltar
-	UserInputService.InputEnded:Connect(function(input)
-		if (input.UserInputType == Enum.UserInputType.MouseButton1) or
-		   (input.UserInputType == Enum.UserInputType.Touch) then
-			if dragging then
-				dragging = false
-				print("✋ DRAG PARADO - Soltou")
-				
-				-- Restaurar visual
-				TweenService:Create(dragHandle, TweenInfo.new(0.1), {
-					BackgroundTransparency = 0
-				}):Play()
-			end
-		end
-	end)
-	
-	-- Limpar conexão quando a janela for destruída
+	-- Limpar conexão quando destruir
 	frame.Destroying:Connect(function()
 		if dragConnection then
 			dragConnection:Disconnect()
@@ -140,26 +177,26 @@ local function CreateDraggableWindow(frame, dragHandle)
 end
 
 -- Função para criar elementos
-local function Create(className, props)
-	local obj = Instance.new(className)
-	for prop, val in pairs(props) do
-		if prop == "Parent" then
-			obj.Parent = val
+local function CreateElement(className, properties)
+	local element = Instance.new(className)
+	for property, value in pairs(properties) do
+		if property == "Parent" then
+			element.Parent = value
 		else
-			obj[prop] = val
+			element[property] = value
 		end
 	end
-	return obj
+	return element
 end
 
--- Função principal
+-- Função principal com visual original
 function boladolib:CreateWindow(options)
 	options = options or {}
 	
-	local theme = self.Themes[self.Save.Theme]
+	local theme = self.Themes[self.Save.Theme] or self.Themes.Darker
 	
-	-- ScreenGui
-	local screenGui = Create("ScreenGui", {
+	-- ScreenGui principal
+	local screenGui = CreateElement("ScreenGui", {
 		Name = "BoladoHub",
 		ResetOnSpawn = false,
 		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
@@ -167,40 +204,82 @@ function boladolib:CreateWindow(options)
 		Parent = Player:WaitForChild("PlayerGui")
 	})
 	
-	-- Frame principal (VERSÃO SIMPLIFICADA PARA TESTE)
-	local mainFrame = Create("Frame", {
+	-- Frame principal com gradiente (VISUAL ORIGINAL)
+	local mainFrame = CreateElement("Frame", {
 		Name = "MainFrame",
-		Size = UDim2.new(0, 500, 0, 350),
-		Position = UDim2.new(0.5, -250, 0.5, -175),
-		BackgroundColor3 = Color3.fromRGB(25, 25, 25),
+		Size = UDim2.new(0, self.Save.UISize[1], 0, self.Save.UISize[2]),
+		Position = UDim2.new(0.5, -self.Save.UISize[1]/2, 0.5, -self.Save.UISize[2]/2),
+		BackgroundColor3 = Color3.new(1, 1, 1), -- Branco para o gradiente
 		BackgroundTransparency = 0,
 		Parent = screenGui
 	})
 	
-	-- Título ARRASTÁVEL (GRANDE E VISÍVEL)
-	local titleBar = Create("Frame", {
-		Name = "TitleBar",
-		Size = UDim2.new(1, 0, 0, 45),
-		BackgroundColor3 = Color3.fromRGB(88, 101, 242),  -- AZUL FORTE
+	-- Gradiente do tema original
+	local uiGradient = CreateElement("UIGradient", {
+		Color = theme["Color Hub 1"],
+		Rotation = 90,
 		Parent = mainFrame
 	})
 	
-	-- Texto do título
-	local titleText = Create("TextLabel", {
+	local uiCorner = CreateElement("UICorner", {
+		CornerRadius = UDim.new(0, 10),
+		Parent = mainFrame
+	})
+	
+	local uiStroke = CreateElement("UIStroke", {
+		Color = theme["Color Stroke"],
+		Thickness = 2,
+		Parent = mainFrame
+	})
+	
+	-- Barra de título (ARRÁSTAVEL COM TOUCH)
+	local titleBar = CreateElement("Frame", {
+		Name = "TitleBar",
+		Size = UDim2.new(1, 0, 0, 40),
+		BackgroundColor3 = theme["Color Hub 2"],
+		Parent = mainFrame
+	})
+	
+	local titleCorner = CreateElement("UICorner", {
+		CornerRadius = UDim.new(0, 10),
+		Parent = titleBar
+	})
+	
+	-- Título VISÍVEL
+	local titleText = CreateElement("TextLabel", {
 		Name = "Title",
-		Size = UDim2.new(1, -80, 1, 0),
+		Size = UDim2.new(1, -100, 1, 0),
 		Position = UDim2.new(0, 15, 0, 0),
 		BackgroundTransparency = 1,
-		Text = "🖱️ CLIQUE E ARRASTE AQUI! 🎮",
-		TextColor3 = Color3.new(1, 1, 1),
+		Text = options.Title or "🎮 BOLADOHUB v" .. self.Info.Version,
+		TextColor3 = theme["Color Theme"],
 		Font = Enum.Font.GothamBold,
-		TextSize = 16,
+		TextSize = 18,
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = titleBar
 	})
 	
+	-- Ícone de "arraste" para mobile
+	local dragIcon = CreateElement("ImageLabel", {
+		Name = "DragIcon",
+		Size = UDim2.new(0, 25, 0, 25),
+		Position = UDim2.new(1, -70, 0.5, -12.5),
+		BackgroundTransparency = 1,
+		Image = "rbxassetid://10734952737", -- Ícone de mover
+		ImageColor3 = theme["Color Text"],
+		ImageTransparency = 0.7,
+		Visible = false, -- Só mostrar em mobile
+		Parent = titleBar
+	})
+	
+	-- Detectar se é mobile
+	if UserInputService.TouchEnabled then
+		dragIcon.Visible = true
+		titleText.Text = "👆 ARRASTE AQUI 👆"
+	end
+	
 	-- Botão fechar
-	local closeBtn = Create("TextButton", {
+	local closeBtn = CreateElement("TextButton", {
 		Name = "Close",
 		Size = UDim2.new(0, 35, 0, 35),
 		Position = UDim2.new(1, -40, 0.5, -17.5),
@@ -213,49 +292,99 @@ function boladolib:CreateWindow(options)
 		Parent = titleBar
 	})
 	
+	local closeCorner = CreateElement("UICorner", {
+		CornerRadius = UDim.new(0, 6),
+		Parent = closeBtn
+	})
+	
 	-- Área de conteúdo
-	local contentArea = Create("Frame", {
+	local contentArea = CreateElement("Frame", {
 		Name = "ContentArea",
-		Size = UDim2.new(1, -20, 1, -65),
-		Position = UDim2.new(0, 10, 0, 60),
+		Size = UDim2.new(1, -20, 1, -60),
+		Position = UDim2.new(0, 10, 0, 55),
 		BackgroundTransparency = 1,
 		Parent = mainFrame
 	})
 	
-	-- Tabs (VISÍVEIS)
-	local tabButtons = Create("Frame", {
-		Name = "TabButtons",
-		Size = UDim2.new(1, 0, 0, 40),
+	-- Tabs no lado esquerdo (VISUAL ORIGINAL)
+	local tabContainer = CreateElement("Frame", {
+		Name = "TabContainer",
+		Size = UDim2.new(0, self.Save.TabSize, 1, 0),
 		BackgroundTransparency = 1,
 		Parent = contentArea
 	})
 	
-	-- Conteúdo das tabs
-	local tabContent = Create("Frame", {
+	local tabListLayout = CreateElement("UIListLayout", {
+		Padding = UDim.new(0, 8),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Parent = tabContainer
+	})
+	
+	-- Conteúdo das tabs no lado direito
+	local tabContent = CreateElement("Frame", {
 		Name = "TabContent",
-		Size = UDim2.new(1, 0, 1, -45),
-		Position = UDim2.new(0, 0, 0, 45),
+		Size = UDim2.new(1, -self.Save.TabSize - 10, 1, 0),
+		Position = UDim2.new(0, self.Save.TabSize + 10, 0, 0),
 		BackgroundTransparency = 1,
 		Parent = contentArea
 	})
 	
-	-- CONFIGURAR DRAG (FUNCIONAL GARANTIDO)
-	CreateDraggableWindow(mainFrame, titleBar)
+	-- CONFIGURAR DRAG COM TOUCH
+	CreateDraggable(mainFrame, titleBar)
 	
-	-- Testar drag imediatamente
+	-- Feedback de drag funcionando
 	task.spawn(function()
-		task.wait(1)
-		print("🎯 TESTE: Clique na barra AZUL e arraste!")
-		print("📍 Posição atual:", mainFrame.Position)
+		task.wait(0.5)
+		if UserInputService.TouchEnabled then
+			print("📱 MODO TOUCH ATIVO - Arraste com o dedo!")
+		else
+			print("🖱️ MODO MOUSE - Clique e arraste!")
+		end
 	end)
 	
 	-- Efeitos botão fechar
 	closeBtn.MouseButton1Click:Connect(function()
+		TweenService:Create(mainFrame, TweenInfo.new(0.3), {
+			Size = UDim2.new(0, 0, 0, 0),
+			Position = UDim2.new(0.5, 0, 0.5, 0)
+		}):Play()
+		task.wait(0.3)
 		screenGui:Destroy()
+	end)
+	
+	closeBtn.MouseEnter:Connect(function()
+		TweenService:Create(closeBtn, TweenInfo.new(0.2), {
+			BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+		}):Play()
+	end)
+	
+	closeBtn.MouseLeave:Connect(function()
+		TweenService:Create(closeBtn, TweenInfo.new(0.2), {
+			BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+		}):Play()
+	end)
+	
+	-- TOUCH para botão fechar
+	closeBtn.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.Touch then
+			TweenService:Create(closeBtn, TweenInfo.new(0.1), {
+				BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+			}):Play()
+		end
+	end)
+	
+	closeBtn.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.Touch then
+			TweenService:Create(closeBtn, TweenInfo.new(0.1), {
+				BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+			}):Play()
+		end
 	end)
 	
 	-- Objeto da janela
 	local window = {
+		_instance = mainFrame,
+		_screenGui = screenGui,
 		_tabs = {},
 		_currentTab = 1,
 		_methods = {}
@@ -266,100 +395,364 @@ function boladolib:CreateWindow(options)
 		local options = tabOptions or {}
 		local tabId = #window._tabs + 1
 		
-		-- Botão da tab (VISÍVEL)
-		local tabButton = Create("TextButton", {
+		-- Botão da tab (VISUAL ORIGINAL)
+		local tabButton = CreateElement("TextButton", {
 			Name = "Tab_" .. tabId,
-			Size = UDim2.new(0, 100, 1, 0),
-			Position = UDim2.new(0, (tabId-1)*105, 0, 0),
-			BackgroundColor3 = tabId == 1 and Color3.fromRGB(88, 101, 242) or Color3.fromRGB(60, 60, 80),
+			Size = UDim2.new(1, 0, 0, 50),
+			BackgroundColor3 = tabId == 1 and theme["Color Theme"] or theme["Color Hub 2"],
+			Text = "",
+			AutoButtonColor = false,
+			LayoutOrder = tabId,
+			Parent = tabContainer
+		})
+		
+		local tabCorner = CreateElement("UICorner", {
+			CornerRadius = UDim.new(0, 8),
+			Parent = tabButton
+		})
+		
+		local tabStroke = CreateElement("UIStroke", {
+			Color = theme["Color Stroke"],
+			Thickness = 1,
+			Parent = tabButton
+		})
+		
+		-- Ícone da tab
+		local icon = CreateElement("ImageLabel", {
+			Name = "Icon",
+			Size = UDim2.new(0, 24, 0, 24),
+			Position = UDim2.new(0, 15, 0.5, -12),
+			BackgroundTransparency = 1,
+			Image = self.Icons[options.Icon] or self.Icons["star"],
+			ImageColor3 = tabId == 1 and Color3.new(1, 1, 1) or theme["Color Theme"],
+			Parent = tabButton
+		})
+		
+		-- Nome da tab VISÍVEL
+		local tabName = CreateElement("TextLabel", {
+			Name = "TabName",
+			Size = UDim2.new(1, -50, 1, 0),
+			Position = UDim2.new(0, 50, 0, 0),
+			BackgroundTransparency = 1,
 			Text = options.Name or "Tab " .. tabId,
-			TextColor3 = tabId == 1 and Color3.new(1, 1, 1) or Color3.new(0.8, 0.8, 0.8),
+			TextColor3 = tabId == 1 and Color3.new(1, 1, 1) or theme["Color Text"],
 			Font = Enum.Font.Gotham,
 			TextSize = 14,
-			AutoButtonColor = false,
-			Parent = tabButtons
+			TextXAlignment = Enum.TextXAlignment.Left,
+			Parent = tabButton
 		})
 		
 		-- Conteúdo da tab
-		local tabFrame = Create("ScrollingFrame", {
+		local tabFrame = CreateElement("ScrollingFrame", {
 			Name = "TabFrame_" .. tabId,
 			Size = UDim2.new(1, 0, 1, 0),
 			BackgroundTransparency = 1,
 			ScrollBarThickness = 4,
-			ScrollBarImageColor3 = Color3.fromRGB(88, 101, 242),
+			ScrollBarImageColor3 = theme["Color Theme"],
 			ScrollingDirection = Enum.ScrollingDirection.Y,
 			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			CanvasSize = UDim2.new(0, 0, 0, 0),
 			Visible = tabId == 1,
 			Parent = tabContent
 		})
 		
-		local tabLayout = Create("UIListLayout", {
-			Padding = UDim.new(0, 8),
+		local frameLayout = CreateElement("UIListLayout", {
+			Padding = UDim.new(0, 10),
 			SortOrder = Enum.SortOrder.LayoutOrder,
 			Parent = tabFrame
 		})
 		
-		-- Selecionar tab
+		local framePadding = CreateElement("UIPadding", {
+			PaddingTop = UDim.new(0, 10),
+			PaddingLeft = UDim.new(0, 10),
+			PaddingRight = UDim.new(0, 10),
+			Parent = tabFrame
+		})
+		
+		-- Função para selecionar tab
 		local function SelectTab()
 			for i, tab in pairs(window._tabs) do
 				if tab.frame then
 					tab.frame.Visible = (i == tabId)
 				end
 				if tab.button then
-					tab.button.BackgroundColor3 = (i == tabId) and Color3.fromRGB(88, 101, 242) or Color3.fromRGB(60, 60, 80)
-					tab.button.TextColor3 = (i == tabId) and Color3.new(1, 1, 1) or Color3.new(0.8, 0.8, 0.8)
+					local targetColor = (i == tabId) and theme["Color Theme"] or theme["Color Hub 2"]
+					local textColor = (i == tabId) and Color3.new(1, 1, 1) or theme["Color Text"]
+					local iconColor = (i == tabId) and Color3.new(1, 1, 1) or theme["Color Theme"]
+					
+					TweenService:Create(tab.button, TweenInfo.new(0.2), {
+						BackgroundColor3 = targetColor
+					}):Play()
+					
+					tab.name.TextColor3 = textColor
+					tab.icon.ImageColor3 = iconColor
 				end
 			end
 			window._currentTab = tabId
 		end
 		
-		-- Evento de clique
-		tabButton.MouseButton1Click:Connect(SelectTab)
+		-- Clique MOUSE
+		tabButton.MouseButton1Click:Connect(function()
+			SelectTab()
+			
+			-- Efeito de clique
+			TweenService:Create(tabButton, TweenInfo.new(0.1), {
+				Size = UDim2.new(1, -5, 0, 50)
+			}):Play()
+			
+			task.wait(0.1)
+			
+			TweenService:Create(tabButton, TweenInfo.new(0.1), {
+				Size = UDim2.new(1, 0, 0, 50)
+			}):Play()
+		end)
+		
+		-- TOUCH para tabs
+		tabButton.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.Touch then
+				SelectTab()
+				
+				TweenService:Create(tabButton, TweenInfo.new(0.1), {
+					BackgroundColor3 = Color3.fromRGB(100, 120, 255)
+				}):Play()
+			end
+		end)
+		
+		tabButton.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.Touch then
+				TweenService:Create(tabButton, TweenInfo.new(0.1), {
+					BackgroundColor3 = window._currentTab == tabId and theme["Color Theme"] or theme["Color Hub 2"]
+				}):Play()
+			end
+		end)
+		
+		-- Efeitos hover
+		tabButton.MouseEnter:Connect(function()
+			if window._currentTab ~= tabId then
+				TweenService:Create(tabButton, TweenInfo.new(0.2), {
+					BackgroundColor3 = Color3.fromRGB(
+						theme["Color Hub 2"].R * 255 + 10,
+						theme["Color Hub 2"].G * 255 + 10,
+						theme["Color Hub 2"].B * 255 + 10
+					)
+				}):Play()
+			end
+		end)
+		
+		tabButton.MouseLeave:Connect(function()
+			if window._currentTab ~= tabId then
+				TweenService:Create(tabButton, TweenInfo.new(0.2), {
+					BackgroundColor3 = theme["Color Hub 2"]
+				}):Play()
+			end
+		end)
 		
 		-- Métodos da tab
 		local tabMethods = {}
 		
 		function tabMethods:CreateButton(btnOptions)
-			local button = Create("TextButton", {
-				Size = UDim2.new(1, 0, 0, 40),
-				BackgroundColor3 = Color3.fromRGB(50, 50, 70),
-				Text = btnOptions.Name or "Button",
-				TextColor3 = Color3.fromRGB(88, 101, 242),
+			local options = btnOptions or {}
+			local elementId = #tabFrame:GetChildren()
+			
+			local button = CreateElement("TextButton", {
+				Name = "Button_" .. elementId,
+				Size = UDim2.new(1, 0, 0, 45),
+				BackgroundColor3 = theme["Color Hub 2"],
+				Text = options.Name or "Button " .. elementId,
+				TextColor3 = theme["Color Theme"],
 				Font = Enum.Font.Gotham,
 				TextSize = 14,
 				AutoButtonColor = false,
-				LayoutOrder = #tabFrame:GetChildren(),
+				LayoutOrder = elementId,
 				Parent = tabFrame
 			})
 			
-			-- Efeitos
+			local btnCorner = CreateElement("UICorner", {
+				CornerRadius = UDim.new(0, 8),
+				Parent = button
+			})
+			
+			local btnStroke = CreateElement("UIStroke", {
+				Color = theme["Color Stroke"],
+				Thickness = 1,
+				Parent = button
+			})
+			
+			-- Efeitos hover (MOUSE)
 			button.MouseEnter:Connect(function()
 				TweenService:Create(button, TweenInfo.new(0.2), {
-					BackgroundColor3 = Color3.fromRGB(70, 70, 90)
+					BackgroundColor3 = Color3.fromRGB(
+						theme["Color Hub 2"].R * 255 + 15,
+						theme["Color Hub 2"].G * 255 + 15,
+						theme["Color Hub 2"].B * 255 + 15
+					),
+					TextColor3 = Color3.new(1, 1, 1)
 				}):Play()
 			end)
 			
 			button.MouseLeave:Connect(function()
 				TweenService:Create(button, TweenInfo.new(0.2), {
-					BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+					BackgroundColor3 = theme["Color Hub 2"],
+					TextColor3 = theme["Color Theme"]
 				}):Play()
 			end)
 			
-			-- Clique
-			if btnOptions.Callback then
+			-- TOUCH para botões
+			button.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.Touch then
+					TweenService:Create(button, TweenInfo.new(0.1), {
+						BackgroundColor3 = Color3.fromRGB(100, 120, 255),
+						TextColor3 = Color3.new(1, 1, 1)
+					}):Play()
+				end
+			end)
+			
+			button.InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.Touch then
+					TweenService:Create(button, TweenInfo.new(0.1), {
+						BackgroundColor3 = theme["Color Hub 2"],
+						TextColor3 = theme["Color Theme"]
+					}):Play()
+					
+					if options.Callback then
+						pcall(options.Callback)
+					end
+				end
+			end)
+			
+			-- Clique MOUSE
+			if options.Callback then
 				button.MouseButton1Click:Connect(function()
-					pcall(btnOptions.Callback)
+					TweenService:Create(button, TweenInfo.new(0.1), {
+						BackgroundColor3 = Color3.fromRGB(100, 120, 255)
+					}):Play()
+					
+					task.wait(0.1)
+					
+					TweenService:Create(button, TweenInfo.new(0.1), {
+						BackgroundColor3 = theme["Color Hub 2"]
+					}):Play()
+					
+					pcall(options.Callback)
 				end)
 			end
 			
 			return button
 		end
 		
+		function tabMethods:CreateToggle(toggleOptions)
+			local options = toggleOptions or {}
+			local elementId = #tabFrame:GetChildren()
+			
+			local toggleFrame = CreateElement("Frame", {
+				Name = "Toggle_" .. elementId,
+				Size = UDim2.new(1, 0, 0, 40),
+				BackgroundTransparency = 1,
+				LayoutOrder = elementId,
+				Parent = tabFrame
+			})
+			
+			local label = CreateElement("TextLabel", {
+				Size = UDim2.new(0.7, 0, 1, 0),
+				BackgroundTransparency = 1,
+				Text = options.Name or "Toggle " .. elementId,
+				TextColor3 = theme["Color Text"],
+				Font = Enum.Font.Gotham,
+				TextSize = 14,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Parent = toggleFrame
+			})
+			
+			local toggleBtn = CreateElement("TextButton", {
+				Size = UDim2.new(0, 52, 0, 26),
+				Position = UDim2.new(1, -57, 0.5, -13),
+				BackgroundColor3 = options.Default and Color3.fromRGB(0, 100, 150) or Color3.fromRGB(60, 60, 80),
+				Text = "",
+				AutoButtonColor = false,
+				Parent = toggleFrame
+			})
+			
+			local btnCorner = CreateElement("UICorner", {
+				CornerRadius = UDim.new(1, 0),
+				Parent = toggleBtn
+			})
+			
+			local indicator = CreateElement("Frame", {
+				Size = UDim2.new(0, 20, 0, 20),
+				Position = options.Default and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10),
+				BackgroundColor3 = options.Default and theme["Color Theme"] or Color3.fromRGB(180, 180, 180),
+				Parent = toggleBtn
+			})
+			
+			local indCorner = CreateElement("UICorner", {
+				CornerRadius = UDim.new(1, 0),
+				Parent = indicator
+			})
+			
+			local state = options.Default or false
+			
+			-- Função para alternar estado
+			local function ToggleState()
+				state = not state
+				
+				local targetPos = state and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
+				local targetColor = state and theme["Color Theme"] or Color3.fromRGB(180, 180, 180)
+				local bgColor = state and Color3.fromRGB(0, 100, 150) or Color3.fromRGB(60, 60, 80)
+				
+				TweenService:Create(indicator, TweenInfo.new(0.2), {
+					Position = targetPos,
+					BackgroundColor3 = targetColor
+				}):Play()
+				
+				TweenService:Create(toggleBtn, TweenInfo.new(0.2), {
+					BackgroundColor3 = bgColor
+				}):Play()
+				
+				if options.Callback then
+					pcall(options.Callback, state)
+				end
+			end
+			
+			-- Clique MOUSE
+			toggleBtn.MouseButton1Click:Connect(ToggleState)
+			
+			-- TOUCH
+			toggleBtn.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.Touch then
+					ToggleState()
+				end
+			end)
+			
+			return toggleFrame
+		end
+		
+		function tabMethods:CreateLabel(labelOptions)
+			local options = labelOptions or {}
+			local elementId = #tabFrame:GetChildren()
+			
+			local label = CreateElement("TextLabel", {
+				Name = "Label_" .. elementId,
+				Size = UDim2.new(1, 0, 0, 30),
+				BackgroundTransparency = 1,
+				Text = options.Text or "Label " .. elementId,
+				TextColor3 = options.Color or theme["Color Dark Text"],
+				Font = Enum.Font.Gotham,
+				TextSize = options.Size or 14,
+				TextXAlignment = options.Alignment or Enum.TextXAlignment.Left,
+				LayoutOrder = elementId,
+				Parent = tabFrame
+			})
+			
+			return label
+		end
+		
 		-- Armazenar tab
 		local tab = {
 			id = tabId,
+			name = tabName,
 			button = tabButton,
 			frame = tabFrame,
+			icon = icon,
 			methods = tabMethods
 		}
 		
@@ -373,12 +766,16 @@ function boladolib:CreateWindow(options)
 		return tabMethods
 	end
 	
+	function window._methods:Destroy()
+		screenGui:Destroy()
+	end
+	
 	return window._methods
 end
 
 -- Inicializar
 function boladolib:Init()
-	print("✅ BoladoHub v" .. self.Info.Version .. " - DRAG FUNCIONAL")
+	print("🎮 BoladoHub v" .. self.Info.Version .. " - TOUCH COMPATÍVEL")
 	return self
 end
 
