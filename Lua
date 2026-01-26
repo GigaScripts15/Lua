@@ -8,7 +8,7 @@ local BoladoHub = {}
 
 -- Sistema de Drag SIMPLES e FUNCIONAL
 local function CreateDraggableWindow(frame, dragHandle)
-    local dragging = false
+    local dragging = true
     local dragStart
     local startPos
     
