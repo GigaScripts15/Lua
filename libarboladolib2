@@ -140,7 +140,7 @@ local Boladolib = {
     },
     
     Save = {
-        UISize = {450, 300},
+        UISize = {500, 380},
         TabSize = 160,
         Theme = "NeonPink",
         Minimized = false
