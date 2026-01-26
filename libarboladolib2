@@ -1,5 +1,3 @@
--- BoladoHub Ultimate v3.0 - Interface Premium Otimizada
--- Compatível com qualquer jogo Roblox
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -10,889 +8,1036 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 
--- Configurações globais
-local UI_WIDTH = 450  -- Tamanho solicitado
-local UI_HEIGHT = 300 -- Tamanho solicitado
+local Boladolib = {
+    Themes = {
+        Darker = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(25, 25, 25)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(32.5, 32.5, 32.5)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(25, 25, 25))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(30, 30, 30),
+            ["Color Stroke"] = Color3.fromRGB(40, 40, 40),
+            ["Color Theme"] = Color3.fromRGB(88, 101, 242),  -- Azul Discord
+            ["Color Text"] = Color3.fromRGB(243, 243, 243),
+            ["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
+        },
+        Dark = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 40, 40)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(47.5, 47.5, 47.5)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 40, 40))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(45, 45, 45),
+            ["Color Stroke"] = Color3.fromRGB(65, 65, 65),
+            ["Color Theme"] = Color3.fromRGB(65, 150, 255),  -- Azul Claro
+            ["Color Text"] = Color3.fromRGB(245, 245, 245),
+            ["Color Dark Text"] = Color3.fromRGB(190, 190, 190)
+        },
+        Purple = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(27.5, 25, 30)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(32.5, 32.5, 32.5)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(27.5, 25, 30))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(30, 30, 30),
+            ["Color Stroke"] = Color3.fromRGB(40, 40, 40),
+            ["Color Theme"] = Color3.fromRGB(150, 0, 255),  -- Roxo Vibrante
+            ["Color Text"] = Color3.fromRGB(240, 240, 240),
+            ["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
+        },
+        NeonPink = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 10, 25)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(25, 15, 30)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 10, 25))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(35, 20, 40),
+            ["Color Stroke"] = Color3.fromRGB(60, 30, 70),
+            ["Color Theme"] = Color3.fromRGB(255, 0, 247),  -- Rosa Neon
+            ["Color Text"] = Color3.fromRGB(255, 220, 255),
+            ["Color Dark Text"] = Color3.fromRGB(200, 150, 200)
+        },
+        Matrix = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 20, 0)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 30, 0)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 20, 0))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(0, 25, 0),
+            ["Color Stroke"] = Color3.fromRGB(0, 50, 0),
+            ["Color Theme"] = Color3.fromRGB(0, 255, 0),  -- Verde Matrix
+            ["Color Text"] = Color3.fromRGB(220, 255, 220),
+            ["Color Dark Text"] = Color3.fromRGB(150, 200, 150)
+        },
+        Sunset = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(25, 15, 30)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(35, 20, 40)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(25, 15, 30))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(40, 25, 45),
+            ["Color Stroke"] = Color3.fromRGB(70, 40, 80),
+            ["Color Theme"] = Color3.fromRGB(255, 100, 0),  -- Laranja Sunset
+            ["Color Text"] = Color3.fromRGB(255, 240, 220),
+            ["Color Dark Text"] = Color3.fromRGB(200, 170, 150)
+        },
+        Crystal = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 20, 30)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 25, 35)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 20, 30))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(20, 30, 40),
+            ["Color Stroke"] = Color3.fromRGB(40, 60, 80),
+            ["Color Theme"] = Color3.fromRGB(0, 247, 255),  -- Ciano Crystal
+            ["Color Text"] = Color3.fromRGB(220, 255, 255),
+            ["Color Dark Text"] = Color3.fromRGB(150, 200, 200)
+        },
+        Blood = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(30, 10, 10)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(40, 15, 15)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(30, 10, 10))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(45, 20, 20),
+            ["Color Stroke"] = Color3.fromRGB(70, 30, 30),
+            ["Color Theme"] = Color3.fromRGB(255, 40, 40),  -- Vermelho Sangue
+            ["Color Text"] = Color3.fromRGB(255, 220, 220),
+            ["Color Dark Text"] = Color3.fromRGB(200, 150, 150)
+        },
+        Gold = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(30, 25, 10)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(40, 30, 15)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(30, 25, 10))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(50, 40, 20),
+            ["Color Stroke"] = Color3.fromRGB(80, 60, 30),
+            ["Color Theme"] = Color3.fromRGB(255, 200, 0),  -- Dourado
+            ["Color Text"] = Color3.fromRGB(255, 255, 220),
+            ["Color Dark Text"] = Color3.fromRGB(200, 180, 100)
+        },
+        Ocean = {
+            ["Color Hub 1"] = ColorSequence.new({
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 20, 40)),
+                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 25, 50)),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 20, 40))
+            }),
+            ["Color Hub 2"] = Color3.fromRGB(20, 30, 60),
+            ["Color Stroke"] = Color3.fromRGB(30, 50, 90),
+            ["Color Theme"] = Color3.fromRGB(0, 150, 255),  -- Azul Oceano
+            ["Color Text"] = Color3.fromRGB(220, 240, 255),
+            ["Color Dark Text"] = Color3.fromRGB(150, 180, 200)
+        }
+    },
+    
+    Info = {
+        Version = "Tester",
+        Author = "BoladoHub",
+        Inspiracao = "Eu mesmo",
+        Ajuda = "App Da Baleia"
+    },
+    
+    Save = {
+        UISize = {450, 300},
+        TabSize = 160,
+        Theme = "NeonPink",
+        Minimized = false
+    },
 
-local BoladoHub = {
-	Themes = {
-		-- Sistema de temas otimizado
-		Darker = {
-			["Background1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(25, 25, 25)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))
-			}),
-			["Background2"] = Color3.fromRGB(20, 20, 20),
-			["Stroke"] = Color3.fromRGB(35, 35, 35),
-			["Primary"] = Color3.fromRGB(88, 101, 242),
-			["Secondary"] = Color3.fromRGB(114, 137, 218),
-			["Text"] = Color3.fromRGB(245, 245, 245),
-			["SubText"] = Color3.fromRGB(180, 180, 180),
-			["Accent"] = Color3.fromRGB(255, 180, 0)
-		},
-		Midnight = {
-			["Background1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 15, 25)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(20, 25, 35)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 15, 25))
-			}),
-			["Background2"] = Color3.fromRGB(15, 20, 30),
-			["Stroke"] = Color3.fromRGB(30, 40, 60),
-			["Primary"] = Color3.fromRGB(0, 150, 255),
-			["Secondary"] = Color3.fromRGB(0, 180, 255),
-			["Text"] = Color3.fromRGB(235, 245, 255),
-			["SubText"] = Color3.fromRGB(170, 190, 210),
-			["Accent"] = Color3.fromRGB(255, 120, 0)
-		},
-		Neon = {
-			["Background1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 5, 20)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 10, 25)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 5, 20))
-			}),
-			["Background2"] = Color3.fromRGB(20, 15, 35),
-			["Stroke"] = Color3.fromRGB(40, 30, 60),
-			["Primary"] = Color3.fromRGB(255, 0, 247),
-			["Secondary"] = Color3.fromRGB(255, 50, 247),
-			["Text"] = Color3.fromRGB(255, 240, 255),
-			["SubText"] = Color3.fromRGB(220, 180, 220),
-			["Accent"] = Color3.fromRGB(0, 255, 247)
-		},
-		Forest = {
-			["Background1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 25, 15)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 35, 20)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 25, 15))
-			}),
-			["Background2"] = Color3.fromRGB(20, 40, 25),
-			["Stroke"] = Color3.fromRGB(30, 60, 35),
-			["Primary"] = Color3.fromRGB(0, 200, 100),
-			["Secondary"] = Color3.fromRGB(0, 220, 120),
-			["Text"] = Color3.fromRGB(240, 255, 240),
-			["SubText"] = Color3.fromRGB(180, 220, 180),
-			["Accent"] = Color3.fromRGB(255, 200, 0)
-		},
-		Crimson = {
-			["Background1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(25, 10, 10)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(35, 15, 15)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(25, 10, 10))
-			}),
-			["Background2"] = Color3.fromRGB(40, 20, 20),
-			["Stroke"] = Color3.fromRGB(60, 30, 30),
-			["Primary"] = Color3.fromRGB(220, 40, 40),
-			["Secondary"] = Color3.fromRGB(240, 60, 60),
-			["Text"] = Color3.fromRGB(255, 230, 230),
-			["SubText"] = Color3.fromRGB(220, 170, 170),
-			["Accent"] = Color3.fromRGB(255, 180, 40)
-		}
-	},
-	Info = {
-		Version = "3.0.0",
-		Author = "BoladoHub",
-		BuildDate = "2024"
-	},
-	Config = {
-		DefaultTheme = "Darker",
-		MinimizedWidth = 200,
-		MinimizedHeight = 42,
-		AnimationSpeed = 0.2,
-		CornerRadius = UDim.new(0, 8)
-	},
-	Cache = {},
-	Windows = {},
-	Components = {},
-	Utils = {}
+    Settings = {},
+    Connection = {},
+    Instances = {},
+    Elements = {},
+    Options = {},
+    Flags = {},
+    Tabs = {},
+    Icons = {
+        -- Ferramentas & Utilidades Gerais
+        ["settings"] = "rbxassetid://10734950309",
+        ["code"] = "rbxassetid://10709810463",
+        ["shield"] = "rbxassetid://10734951847",
+        ["gamepad"] = "rbxassetid://10723395457",
+        ["eye"] = "rbxassetid://10723346959",
+        ["star"] = "rbxassetid://10734966248",
+        ["bolt"] = "rbxassetid://10709721749",
+        ["wand"] = "rbxassetid://10747376565",
+        ["crown"] = "rbxassetid://10709818626",
+        ["user"] = "rbxassetid://10747373176",
+        
+        -- Aparência & Design
+        ["paintbrush"] = "rbxassetid://10734910187",
+        ["palette"] = "rbxassetid://10734910430",
+        ["image"] = "rbxassetid://10723415040",
+        ["sliders"] = "rbxassetid://10734963400",
+        
+        -- Status & Informação
+        ["bell"] = "rbxassetid://10709775704",
+        ["checkcircle"] = "rbxassetid://10709790387",
+        ["xcircle"] = "rbxassetid://10747383819",
+        ["alertcircle"] = "rbxassetid://10709752996",
+        ["info"] = "rbxassetid://10723415903",
+        ["helpcircle"] = "rbxassetid://10723406988",
+        
+        -- Arquivos & Navegação
+        ["folder"] = "rbxassetid://10723387563",
+        ["search"] = "rbxassetid://10734943674",
+        ["download"] = "rbxassetid://10723344270",
+        ["upload"] = "rbxassetid://10747366434",
+        ["copy"] = "rbxassetid://10709812159",
+        ["trash"] = "rbxassetid://10747362393",
+        
+        -- Ações & Controles
+        ["play"] = "rbxassetid://10734923549",
+        ["stopcircle"] = "rbxassetid://10734972621",
+        ["refreshcw"] = "rbxassetid://10734933222",
+        ["lock"] = "rbxassetid://10723434711",
+        
+        -- Extras Úteis
+        ["sword"] = "rbxassetid://10734975486",
+        ["music"] = "rbxassetid://10734905958",
+        ["zap"] = "rbxassetid://10709721749",
+        ["cog"] = "rbxassetid://10709810948",
+        ["key"] = "rbxassetid://10723416652",
+        ["wifi"] = "rbxassetid://10747382504",
+        ["cpu"] = "rbxassetid://10709813383",
+        ["battery"] = "rbxassetid://10709774640",
+        ["home"] = "rbxassetid://10723407389",
+        ["flag"] = "rbxassetid://10723375890"
+    }
 }
 
--- ====================
--- UTILIDADES
--- ====================
-
--- Criação otimizada de elementos
-function BoladoHub.Utils.CreateElement(className, properties, children)
-	local element = Instance.new(className)
-	
-	for prop, value in pairs(properties) do
-		if prop == "Parent" then
-			element.Parent = value
-		else
-			element[prop] = value
-		end
-	end
-	
-	if children then
-		for _, child in ipairs(children) do
-			child.Parent = element
-		end
-	end
-	
-	return element
+-- Funções da biblioteca
+function Boladolib:CreateWindow(options)
+    local windowOptions = options or {}
+    local title = windowOptions.Title or "BoladoHub"
+    local theme = windowOptions.Theme or self.Save.Theme
+    
+    -- Criar a interface principal
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "BoladoHub"
+    ScreenGui.Parent = CoreGui
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    ScreenGui.DisplayOrder = 999
+    ScreenGui.ResetOnSpawn = false
+    
+    self.Instances.ScreenGui = ScreenGui
+    
+    -- Frame principal
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "MainFrame"
+    MainFrame.Size = UDim2.new(0, self.Save.UISize[1], 0, self.Save.UISize[2])
+    MainFrame.Position = UDim2.new(0.5, -self.Save.UISize[1]/2, 0.5, -self.Save.UISize[2]/2)
+    MainFrame.BackgroundColor3 = self.Themes[theme]["Color Hub 2"]
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Parent = ScreenGui
+    
+    -- Arraste
+    local DragFrame = Instance.new("Frame")
+    DragFrame.Name = "DragFrame"
+    DragFrame.Size = UDim2.new(1, 0, 0, 30)
+    DragFrame.BackgroundTransparency = 1
+    DragFrame.Parent = MainFrame
+    
+    local dragging = false
+    local dragStart, startPos
+    
+    DragFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = MainFrame.Position
+        end
+    end)
+    
+    DragFrame.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local delta = input.Position - dragStart
+            MainFrame.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+    
+    DragFrame.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+    
+    -- Barra de título
+    local TitleBar = Instance.new("Frame")
+    TitleBar.Name = "TitleBar"
+    TitleBar.Size = UDim2.new(1, 0, 0, 30)
+    TitleBar.BackgroundColor3 = self.Themes[theme]["Color Hub 2"]
+    TitleBar.BorderSizePixel = 0
+    TitleBar.Parent = MainFrame
+    
+    local TitleGradient = Instance.new("UIGradient")
+    TitleGradient.Color = self.Themes[theme]["Color Hub 1"]
+    TitleGradient.Parent = TitleBar
+    
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Name = "TitleLabel"
+    TitleLabel.Size = UDim2.new(1, -60, 1, 0)
+    TitleLabel.Position = UDim2.new(0, 10, 0, 0)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = title
+    TitleLabel.TextColor3 = self.Themes[theme]["Color Text"]
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.TextSize = 14
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLabel.Parent = TitleBar
+    
+    -- Botões da barra de título
+    local MinimizeButton = self:CreateButton({
+        Parent = TitleBar,
+        Position = UDim2.new(1, -60, 0, 5),
+        Size = UDim2.new(0, 20, 0, 20),
+        Text = "_",
+        Callback = function()
+            self.Save.Minimized = not self.Save.Minimized
+            local content = MainFrame:FindFirstChild("Content")
+            local tabs = MainFrame:FindFirstChild("TabsFrame")
+            
+            if self.Save.Minimized then
+                MainFrame.Size = UDim2.new(0, self.Save.UISize[1], 0, 30)
+                if content then content.Visible = false end
+                if tabs then tabs.Visible = false end
+            else
+                MainFrame.Size = UDim2.new(0, self.Save.UISize[1], 0, self.Save.UISize[2])
+                if content then content.Visible = true end
+                if tabs then tabs.Visible = true end
+            end
+        end
+    })
+    
+    local CloseButton = self:CreateButton({
+        Parent = TitleBar,
+        Position = UDim2.new(1, -30, 0, 5),
+        Size = UDim2.new(0, 20, 0, 20),
+        Text = "X",
+        Callback = function()
+            ScreenGui:Destroy()
+            self.Instances.ScreenGui = nil
+        end
+    })
+    
+    -- Frame de abas
+    local TabsFrame = Instance.new("Frame")
+    TabsFrame.Name = "TabsFrame"
+    TabsFrame.Size = UDim2.new(0, self.Save.TabSize, 1, -30)
+    TabsFrame.Position = UDim2.new(0, 0, 0, 30)
+    TabsFrame.BackgroundColor3 = self.Themes[theme]["Color Hub 2"]
+    TabsFrame.BorderSizePixel = 0
+    TabsFrame.Parent = MainFrame
+    
+    local TabsList = Instance.new("ScrollingFrame")
+    TabsList.Name = "TabsList"
+    TabsList.Size = UDim2.new(1, 0, 1, 0)
+    TabsList.BackgroundTransparency = 1
+    TabsList.BorderSizePixel = 0
+    TabsList.ScrollBarThickness = 3
+    TabsList.ScrollBarImageColor3 = self.Themes[theme]["Color Theme"]
+    TabsList.Parent = TabsFrame
+    
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Padding = UDim.new(0, 5)
+    UIListLayout.Parent = TabsList
+    
+    -- Frame de conteúdo
+    local ContentFrame = Instance.new("Frame")
+    ContentFrame.Name = "ContentFrame"
+    ContentFrame.Size = UDim2.new(1, -self.Save.TabSize, 1, -30)
+    ContentFrame.Position = UDim2.new(0, self.Save.TabSize, 0, 30)
+    ContentFrame.BackgroundColor3 = self.Themes[theme]["Color Hub 2"]
+    ContentFrame.BorderSizePixel = 0
+    ContentFrame.Parent = MainFrame
+    
+    -- Armazenar instâncias
+    self.Instances.MainFrame = MainFrame
+    self.Instances.TabsList = TabsList
+    self.Instances.ContentFrame = ContentFrame
+    self.Instances.Theme = theme
+    
+    -- Funções de redimensionamento
+    self:SetupResize(MainFrame)
+    
+    return {
+        ScreenGui = ScreenGui,
+        MainFrame = MainFrame,
+        ContentFrame = ContentFrame,
+        TabsList = TabsList
+    }
 end
 
--- Sistema de animação suave
-function BoladoHub.Utils.SmoothTween(instance, properties, duration, callback)
-	local tween = TweenService:Create(instance, TweenInfo.new(
-		duration or BoladoHub.Config.AnimationSpeed,
-		Enum.EasingStyle.Quint,
-		Enum.EasingDirection.Out
-	), properties)
-	
-	tween:Play()
-	
-	if callback then
-		tween.Completed:Connect(callback)
-	end
-	
-	return tween
+function Boladolib:CreateButton(options)
+    local btnOptions = options or {}
+    local parent = btnOptions.Parent
+    local position = btnOptions.Position or UDim2.new(0, 0, 0, 0)
+    local size = btnOptions.Size or UDim2.new(0, 100, 0, 30)
+    local text = btnOptions.Text or "Button"
+    local callback = btnOptions.Callback or function() end
+    
+    local theme = self.Instances.Theme or self.Save.Theme
+    
+    local Button = Instance.new("TextButton")
+    Button.Name = "Button"
+    Button.Size = size
+    Button.Position = position
+    Button.BackgroundColor3 = self.Themes[theme]["Color Hub 2"]
+    Button.BorderColor3 = self.Themes[theme]["Color Stroke"]
+    Button.BorderSizePixel = 1
+    Button.Text = text
+    Button.TextColor3 = self.Themes[theme]["Color Text"]
+    Button.Font = Enum.Font.Gotham
+    Button.TextSize = 12
+    Button.Parent = parent
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 4)
+    Corner.Parent = Button
+    
+    -- Efeitos de hover
+    Button.MouseEnter:Connect(function()
+        game:GetService("TweenService"):Create(Button, TweenInfo.new(0.2), {
+            BackgroundColor3 = self.Themes[theme]["Color Theme"]
+        }):Play()
+    end)
+    
+    Button.MouseLeave:Connect(function()
+        game:GetService("TweenService"):Create(Button, TweenInfo.new(0.2), {
+            BackgroundColor3 = self.Themes[theme]["Color Hub 2"]
+        }):Play()
+    end)
+    
+    Button.MouseButton1Down:Connect(function()
+        game:GetService("TweenService"):Create(Button, TweenInfo.new(0.1), {
+            BackgroundColor3 = self.Themes[theme]["Color Stroke"]
+        }):Play()
+    end)
+    
+    Button.MouseButton1Up:Connect(function()
+        game:GetService("TweenService"):Create(Button, TweenInfo.new(0.1), {
+            BackgroundColor3 = self.Themes[theme]["Color Theme"]
+        }):Play()
+        callback()
+    end)
+    
+    return Button
 end
 
--- Clamp de cor para evitar valores inválidos
-function BoladoHub.Utils.ClampColor(color)
-	return Color3.new(
-		math.clamp(color.R, 0, 1),
-		math.clamp(color.G, 0, 1),
-		math.clamp(color.B, 0, 1)
-	)
+function Boladolib:CreateTab(options)
+    local tabOptions = options or {}
+    local name = tabOptions.Name or "Tab"
+    local icon = tabOptions.Icon or "folder"
+    
+    local TabButton = Instance.new("TextButton")
+    TabButton.Name = name .. "Tab"
+    TabButton.Size = UDim2.new(1, -10, 0, 35)
+    TabButton.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+    TabButton.BorderSizePixel = 0
+    TabButton.Text = ""
+    TabButton.Parent = self.Instances.TabsList
+    
+    local Icon = Instance.new("ImageLabel")
+    Icon.Name = "Icon"
+    Icon.Size = UDim2.new(0, 20, 0, 20)
+    Icon.Position = UDim2.new(0, 10, 0.5, -10)
+    Icon.BackgroundTransparency = 1
+    Icon.Image = self.Icons[icon] or self.Icons["folder"]
+    Icon.ImageColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    Icon.Parent = TabButton
+    
+    local Label = Instance.new("TextLabel")
+    Label.Name = "Label"
+    Label.Size = UDim2.new(1, -40, 1, 0)
+    Label.Position = UDim2.new(0, 40, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = name
+    Label.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 12
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = TabButton
+    
+    local Content = Instance.new("ScrollingFrame")
+    Content.Name = name .. "Content"
+    Content.Size = UDim2.new(1, 0, 1, 0)
+    Content.BackgroundTransparency = 1
+    Content.BorderSizePixel = 0
+    Content.ScrollBarThickness = 3
+    Content.ScrollBarImageColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+    Content.Visible = false
+    Content.Parent = self.Instances.ContentFrame
+    
+    local ContentLayout = Instance.new("UIListLayout")
+    ContentLayout.Padding = UDim.new(0, 5)
+    ContentLayout.Parent = Content
+    
+    TabButton.MouseButton1Click:Connect(function()
+        -- Esconder todos os conteúdos
+        for _, child in pairs(self.Instances.ContentFrame:GetChildren()) do
+            if child:IsA("ScrollingFrame") then
+                child.Visible = false
+            end
+        end
+        
+        -- Mostrar conteúdo da aba selecionada
+        Content.Visible = true
+        
+        -- Atualizar aparência dos botões
+        for _, tab in pairs(self.Instances.TabsList:GetChildren()) do
+            if tab:IsA("TextButton") then
+                game:GetService("TweenService"):Create(tab, TweenInfo.new(0.2), {
+                    BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+                }):Play()
+                
+                local tabIcon = tab:FindFirstChild("Icon")
+                if tabIcon then
+                    game:GetService("TweenService"):Create(tabIcon, TweenInfo.new(0.2), {
+                        ImageColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+                    }):Play()
+                end
+                
+                local tabLabel = tab:FindFirstChild("Label")
+                if tabLabel then
+                    game:GetService("TweenService"):Create(tabLabel, TweenInfo.new(0.2), {
+                        TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+                    }):Play()
+                end
+            end
+        end
+        
+        -- Destacar aba selecionada
+        game:GetService("TweenService"):Create(TabButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+        }):Play()
+        
+        if Icon then
+            game:GetService("TweenService"):Create(Icon, TweenInfo.new(0.2), {
+                ImageColor3 = Color3.fromRGB(255, 255, 255)
+            }):Play()
+        end
+        
+        if Label then
+            game:GetService("TweenService"):Create(Label, TweenInfo.new(0.2), {
+                TextColor3 = Color3.fromRGB(255, 255, 255)
+            }):Play()
+        end
+    end)
+    
+    -- Selecionar primeira aba
+    if #self.Instances.TabsList:GetChildren() == 1 then
+        TabButton.MouseButton1Click()
+    end
+    
+    self.Tabs[name] = {
+        Button = TabButton,
+        Content = Content,
+        Icon = Icon
+    }
+    
+    return Content
 end
 
--- Sistema de dragging universal (Mouse + Touch)
-function BoladoHub.Utils.CreateDraggable(frame, dragHandle)
-	local dragging = false
-	local dragInput
-	local dragStart
-	local startPos
-	
-	-- Função para iniciar o drag
-	local function BeginDrag(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-		   input.UserInputType == Enum.UserInputType.Touch then
-			
-			dragging = true
-			dragStart = input.Position
-			startPos = frame.Position
-			
-			-- Efeito visual
-			BoladoHub.Utils.SmoothTween(dragHandle, {
-				BackgroundTransparency = 0.3
-			}, 0.15)
-			
-			-- Capturar input
-			local connection
-			connection = input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-					if connection then
-						connection:Disconnect()
-					end
-					
-					BoladoHub.Utils.SmoothTween(dragHandle, {
-						BackgroundTransparency = 0
-					}, 0.15)
-				end
-			end)
-		end
-	end
-	
-	-- Atualizar posição durante drag
-	local function UpdateDrag(input)
-		if dragging then
-			local delta = input.Position - dragStart
-			frame.Position = UDim2.new(
-				startPos.X.Scale,
-				startPos.X.Offset + delta.X,
-				startPos.Y.Scale,
-				startPos.Y.Offset + delta.Y
-			)
-		end
-	end
-	
-	-- Conectar eventos
-	dragHandle.InputBegan:Connect(BeginDrag)
-	dragHandle.InputChanged:Connect(function(input)
-		if (input.UserInputType == Enum.UserInputType.MouseMovement or 
-			input.UserInputType == Enum.UserInputType.Touch) and dragging then
-			dragInput = input
-		end
-	end)
-	
-	-- Sistema alternativo garantido (backup)
-	local dragConnection
-	dragConnection = UserInputService.InputChanged:Connect(function(input)
-		if dragging then
-			if input == dragInput then
-				UpdateDrag(input)
-			end
-		end
-	end)
-	
-	-- Cleanup
-	frame.Destroying:Connect(function()
-		if dragConnection then
-			dragConnection:Disconnect()
-		end
-	end)
-	
-	-- Retornar funções de controle
-	return {
-		SetDraggable = function(state)
-			dragging = false
-		end
-	}
+function Boladolib:CreateLabel(options)
+    local labelOptions = options or {}
+    local parent = labelOptions.Parent
+    local text = labelOptions.Text or "Label"
+    local color = labelOptions.Color or self.Themes[self.Instances.Theme]["Color Text"]
+    
+    local Label = Instance.new("TextLabel")
+    Label.Name = "Label"
+    Label.Size = UDim2.new(1, -20, 0, 20)
+    Label.Position = UDim2.new(0, 10, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = text
+    Label.TextColor3 = color
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 12
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = parent
+    
+    return Label
 end
 
--- ====================
--- FUNÇÃO PRINCIPAL
--- ====================
-
-function BoladoHub:CreateWindow(options)
-	options = options or {}
-	
-	-- Configurações
-	local windowId = #self.Windows + 1
-	local theme = self.Themes[self.Config.DefaultTheme]
-	local isMobile = UserInputService.TouchEnabled
-	
-	-- ScreenGui (otimizado)
-	local screenGui = self.Utils.CreateElement("ScreenGui", {
-		Name = "BoladoHubWindow_" .. windowId,
-		ResetOnSpawn = false,
-		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-		DisplayOrder = 999,
-		IgnoreGuiInset = true,
-		Parent = (CoreGui or Player:WaitForChild("PlayerGui"))
-	})
-	
-	-- Container principal (para clipping)
-	local mainContainer = self.Utils.CreateElement("Frame", {
-		Name = "MainContainer",
-		Size = UDim2.new(0, UI_WIDTH, 0, UI_HEIGHT),
-		Position = UDim2.new(0.5, -UI_WIDTH/2, 0.5, -UI_HEIGHT/2),
-		BackgroundTransparency = 1,
-		ClipsDescendants = true,
-		Active = true,
-		Selectable = true,
-		Parent = screenGui
-	})
-	
-	-- Frame principal
-	local mainFrame = self.Utils.CreateElement("Frame", {
-		Name = "MainFrame",
-		Size = UDim2.new(1, 0, 1, 0),
-		BackgroundColor3 = theme.Background2,
-		BackgroundTransparency = 0,
-		Parent = mainContainer
-	}, {
-		self.Utils.CreateElement("UIGradient", {
-			Color = theme.Background1,
-			Rotation = 90
-		}),
-		self.Utils.CreateElement("UICorner", {
-			CornerRadius = self.Config.CornerRadius
-		}),
-		self.Utils.CreateElement("UIStroke", {
-			Color = theme.Stroke,
-			Thickness = 2,
-			Transparency = 0.2
-		})
-	})
-	
-	-- Barra de título (drag area)
-	local titleBar = self.Utils.CreateElement("Frame", {
-		Name = "TitleBar",
-		Size = UDim2.new(1, 0, 0, 40),
-		Position = UDim2.new(0, 0, 0, 0),
-		BackgroundColor3 = theme.Background2,
-		BackgroundTransparency = 0.1,
-		Parent = mainFrame
-	}, {
-		self.Utils.CreateElement("UICorner", {
-			CornerRadius = UDim.new(0, self.Config.CornerRadius.Offset),
-			CornerRadius = UDim.new(0, self.Config.CornerRadius.Offset)
-		})
-	})
-	
-	-- Título
-	local titleLabel = self.Utils.CreateElement("TextLabel", {
-		Name = "Title",
-		Size = UDim2.new(1, -100, 1, 0),
-		Position = UDim2.new(0, 12, 0, 0),
-		BackgroundTransparency = 1,
-		Text = options.Title or "🎮 BOLADOHUB v3",
-		TextColor3 = theme.Primary,
-		TextStrokeTransparency = 0.8,
-		TextStrokeColor3 = theme.Primary,
-		Font = Enum.Font.GothamBold,
-		TextSize = 16,
-		TextXAlignment = Enum.TextXAlignment.Left,
-		TextYAlignment = Enum.TextYAlignment.Center,
-		Parent = titleBar
-	})
-	
-	-- Container dos botões
-	local buttonContainer = self.Utils.CreateElement("Frame", {
-		Name = "ButtonContainer",
-		Size = UDim2.new(0, 70, 1, 0),
-		Position = UDim2.new(1, -74, 0, 0),
-		BackgroundTransparency = 1,
-		Parent = titleBar
-	}, {
-		self.Utils.CreateElement("UIListLayout", {
-			FillDirection = Enum.FillDirection.Horizontal,
-			HorizontalAlignment = Enum.HorizontalAlignment.Right,
-			VerticalAlignment = Enum.VerticalAlignment.Center,
-			Padding = UDim.new(0, 6),
-			SortOrder = Enum.SortOrder.LayoutOrder
-		})
-	})
-	
-	-- Botão minimizar
-	local minimizeButton = self.Utils.CreateElement("TextButton", {
-		Name = "MinimizeButton",
-		Size = UDim2.new(0, 30, 0, 30),
-		LayoutOrder = 1,
-		BackgroundColor3 = theme.Accent,
-		Text = "─",
-		TextColor3 = Color3.new(1, 1, 1),
-		TextSize = 18,
-		Font = Enum.Font.GothamBold,
-		AutoButtonColor = false,
-		Parent = buttonContainer
-	}, {
-		self.Utils.CreateElement("UICorner", {
-			CornerRadius = UDim.new(0, 6)
-		}),
-		self.Utils.CreateElement("UIStroke", {
-			Color = Color3.new(1, 1, 1),
-			Thickness = 1,
-			Transparency = 0.8
-		})
-	})
-	
-	-- Botão fechar
-	local closeButton = self.Utils.CreateElement("TextButton", {
-		Name = "CloseButton",
-		Size = UDim2.new(0, 30, 0, 30),
-		LayoutOrder = 2,
-		BackgroundColor3 = Color3.fromRGB(220, 60, 60),
-		Text = "✕",
-		TextColor3 = Color3.new(1, 1, 1),
-		TextSize = 18,
-		Font = Enum.Font.GothamBold,
-		AutoButtonColor = false,
-		Parent = buttonContainer
-	}, {
-		self.Utils.CreateElement("UICorner", {
-			CornerRadius = UDim.new(0, 6)
-		}),
-		self.Utils.CreateElement("UIStroke", {
-			Color = Color3.new(1, 1, 1),
-			Thickness = 1,
-			Transparency = 0.8
-		})
-	})
-	
-	-- Área de conteúdo
-	local contentArea = self.Utils.CreateElement("Frame", {
-		Name = "ContentArea",
-		Size = UDim2.new(1, -20, 1, -60),
-		Position = UDim2.new(0, 10, 0, 50),
-		BackgroundTransparency = 1,
-		Parent = mainFrame
-	})
-	
-	-- Container de tabs (esquerda)
-	local tabContainer = self.Utils.CreateElement("Frame", {
-		Name = "TabContainer",
-		Size = UDim2.new(0, 120, 1, 0),
-		BackgroundTransparency = 1,
-		Parent = contentArea
-	}, {
-		self.Utils.CreateElement("UIListLayout", {
-			Padding = UDim.new(0, 8),
-			SortOrder = Enum.SortOrder.LayoutOrder
-		})
-	})
-	
-	-- Container de conteúdo (direita)
-	local tabContentContainer = self.Utils.CreateElement("Frame", {
-		Name = "TabContentContainer",
-		Size = UDim2.new(1, -130, 1, 0),
-		Position = UDim2.new(0, 130, 0, 0),
-		BackgroundTransparency = 1,
-		Parent = contentArea
-	})
-	
-	-- ====================
-	-- DRAGGING SYSTEM
-	-- ====================
-	
-	self.Utils.CreateDraggable(mainContainer, titleBar)
-	
-	-- Sistema alternativo mobile-friendly
-	if isMobile then
-		titleBar.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.Touch then
-				local touchPos = input.Position
-				local framePos = mainContainer.Position
-				local connection
-				
-				connection = RunService.RenderStepped:Connect(function()
-					local currentTouch = UserInputService:GetTouchInput(input)
-					if currentTouch then
-						local delta = currentTouch.Position - touchPos
-						mainContainer.Position = UDim2.new(
-							framePos.X.Scale,
-							framePos.X.Offset + delta.X,
-							framePos.Y.Scale,
-							framePos.Y.Offset + delta.Y
-						)
-					else
-						connection:Disconnect()
-					end
-				end)
-			end
-		end)
-	end
-	
-	-- ====================
-	-- MINIMIZE/MAXIMIZE SYSTEM
-	-- ====================
-	
-	local isMinimized = false
-	local originalSize = UDim2.new(0, UI_WIDTH, 0, UI_HEIGHT)
-	local originalPosition = mainContainer.Position
-	
-	-- Função de minimizar/maximizar
-	local function ToggleMinimize()
-		isMinimized = not isMinimized
-		
-		if isMinimized then
-			-- Minimizar
-			self.Utils.SmoothTween(mainContainer, {
-				Size = UDim2.new(0, self.Config.MinimizedWidth, 0, self.Config.MinimizedHeight),
-				Position = UDim2.new(mainContainer.Position.X.Scale, mainContainer.Position.X.Offset, 
-									1, -self.Config.MinimizedHeight - 10)
-			}, 0.3)
-			
-			contentArea.Visible = false
-			minimizeButton.Text = "□"
-		else
-			-- Maximizar
-			self.Utils.SmoothTween(mainContainer, {
-				Size = originalSize,
-				Position = originalPosition
-			}, 0.3)
-			
-			contentArea.Visible = true
-			minimizeButton.Text = "─"
-		end
-	end
-	
-	-- Efeitos dos botões
-	local function SetupButton(button, hoverColor, clickColor)
-		local originalSize = button.Size
-		local originalColor = button.BackgroundColor3
-		
-		-- Hover (mouse)
-		button.MouseEnter:Connect(function()
-			if not isMobile then
-				self.Utils.SmoothTween(button, {
-					BackgroundColor3 = hoverColor,
-					Size = UDim2.new(0, originalSize.X.Offset + 4, 0, originalSize.Y.Offset + 4)
-				}, 0.15)
-			end
-		end)
-		
-		button.MouseLeave:Connect(function()
-			if not isMobile then
-				self.Utils.SmoothTween(button, {
-					BackgroundColor3 = originalColor,
-					Size = originalSize
-				}, 0.15)
-			end
-		end)
-		
-		-- Touch (mobile)
-		button.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.Touch then
-				self.Utils.SmoothTween(button, {
-					BackgroundColor3 = clickColor,
-					Size = UDim2.new(0, originalSize.X.Offset - 4, 0, originalSize.Y.Offset - 4)
-				}, 0.1)
-			end
-		end)
-		
-		button.InputEnded:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.Touch then
-				self.Utils.SmoothTween(button, {
-					BackgroundColor3 = originalColor,
-					Size = originalSize
-				}, 0.1)
-			end
-		end)
-	end
-	
-	-- Aplicar efeitos
-	SetupButton(minimizeButton, 
-		Color3.fromRGB(255, 200, 50), 
-		Color3.fromRGB(255, 220, 100))
-	
-	SetupButton(closeButton,
-		Color3.fromRGB(240, 80, 80),
-		Color3.fromRGB(250, 100, 100))
-	
-	-- Eventos dos botões
-	minimizeButton.MouseButton1Click:Connect(ToggleMinimize)
-	minimizeButton.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.Touch then
-			ToggleMinimize()
-		end
-	end)
-	
-	closeButton.MouseButton1Click:Connect(function()
-		self.Utils.SmoothTween(mainContainer, {
-			Size = UDim2.new(0, 0, 0, 0),
-			Position = UDim2.new(0.5, 0, 0.5, 0)
-		}, 0.3)
-		
-		self.Utils.SmoothTween(mainContainer, {
-			BackgroundTransparency = 1
-		}, 0.3)
-		
-		task.wait(0.35)
-		screenGui:Destroy()
-	end)
-	
-	closeButton.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.Touch then
-			self.Utils.SmoothTween(mainContainer, {
-				Size = UDim2.new(0, 0, 0, 0),
-				Position = UDim2.new(0.5, 0, 0.5, 0)
-			}, 0.3)
-			
-			task.wait(0.35)
-			screenGui:Destroy()
-		end
-	end)
-	
-	-- ====================
-	-- TAB SYSTEM
-	-- ====================
-	
-	local tabs = {}
-	local currentTab = nil
-	
-	local window = {
-		_instance = mainContainer,
-		_screenGui = screenGui,
-		_tabs = tabs,
-		_currentTab = currentTab,
-		_methods = {},
-		_minimized = false
-	}
-	
-	-- Método para criar tab
-	function window._methods:CreateTab(tabOptions)
-		local options = tabOptions or {}
-		local tabId = #tabs + 1
-		local theme = self.Themes[self.Config.DefaultTheme]
-		
-		-- Botão da tab
-		local tabButton = self.Utils.CreateElement("TextButton", {
-			Name = "Tab_" .. tabId,
-			Size = UDim2.new(1, 0, 0, 42),
-			BackgroundColor3 = tabId == 1 and theme.Primary or theme.Background2,
-			Text = "",
-			AutoButtonColor = false,
-			LayoutOrder = tabId,
-			Parent = tabContainer
-		}, {
-			self.Utils.CreateElement("UICorner", {
-				CornerRadius = UDim.new(0, 6)
-			}),
-			self.Utils.CreateElement("UIStroke", {
-				Color = theme.Stroke,
-				Thickness = 1,
-				Transparency = 0.5
-			})
-		})
-		
-		-- Conteúdo da tab
-		local tabFrame = self.Utils.CreateElement("ScrollingFrame", {
-			Name = "TabFrame_" .. tabId,
-			Size = UDim2.new(1, 0, 1, 0),
-			BackgroundTransparency = 1,
-			ScrollBarThickness = 4,
-			ScrollBarImageColor3 = theme.Primary,
-			ScrollingDirection = Enum.ScrollingDirection.Y,
-			AutomaticCanvasSize = Enum.AutomaticSize.Y,
-			CanvasSize = UDim2.new(0, 0, 0, 0),
-			Visible = tabId == 1,
-			Parent = tabContentContainer
-		}, {
-			self.Utils.CreateElement("UIListLayout", {
-				Padding = UDim.new(0, 8),
-				SortOrder = Enum.SortOrder.LayoutOrder
-			}),
-			self.Utils.CreateElement("UIPadding", {
-				PaddingTop = UDim.new(0, 8),
-				PaddingLeft = UDim.new(0, 8),
-				PaddingRight = UDim.new(0, 8),
-				PaddingBottom = UDim.new(0, 8)
-			})
-		})
-		
-		-- Ícone (simplificado)
-		local tabIcon = self.Utils.CreateElement("TextLabel", {
-			Name = "Icon",
-			Size = UDim2.new(0, 24, 0, 24),
-			Position = UDim2.new(0, 12, 0.5, -12),
-			BackgroundTransparency = 1,
-			Text = options.Icon or "•",
-			TextColor3 = tabId == 1 and Color3.new(1, 1, 1) or theme.Primary,
-			TextSize = 16,
-			Font = Enum.Font.GothamBold,
-			Parent = tabButton
-		})
-		
-		-- Nome da tab
-		local tabName = self.Utils.CreateElement("TextLabel", {
-			Name = "Name",
-			Size = UDim2.new(1, -45, 1, 0),
-			Position = UDim2.new(0, 45, 0, 0),
-			BackgroundTransparency = 1,
-			Text = options.Name or "Tab " .. tabId,
-			TextColor3 = tabId == 1 and Color3.new(1, 1, 1) or theme.Text,
-			TextSize = 14,
-			Font = Enum.Font.Gotham,
-			TextXAlignment = Enum.TextXAlignment.Left,
-			Parent = tabButton
-		})
-		
-		-- Função para selecionar tab
-		local function SelectTab()
-			for i, tab in ipairs(tabs) do
-				if tab.frame then
-					tab.frame.Visible = (i == tabId)
-				end
-				if tab.button then
-					local targetColor = (i == tabId) and theme.Primary or theme.Background2
-					local textColor = (i == tabId) and Color3.new(1, 1, 1) or theme.Text
-					local iconColor = (i == tabId) and Color3.new(1, 1, 1) or theme.Primary
-					
-					self.Utils.SmoothTween(tab.button, {
-						BackgroundColor3 = targetColor
-					}, 0.2)
-					
-					tab.name.TextColor3 = textColor
-					tab.icon.TextColor3 = iconColor
-				end
-			end
-			currentTab = tabId
-		end
-		
-		-- Eventos da tab
-		tabButton.MouseButton1Click:Connect(function()
-			SelectTab()
-			
-			-- Efeito de clique
-			self.Utils.SmoothTween(tabButton, {
-				Size = UDim2.new(1, -5, 0, 42)
-			}, 0.1)
-			
-			task.wait(0.1)
-			
-			self.Utils.SmoothTween(tabButton, {
-				Size = UDim2.new(1, 0, 0, 42)
-			}, 0.1)
-		end)
-		
-		tabButton.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.Touch then
-				SelectTab()
-			end
-		end)
-		
-		-- Métodos da tab
-		local tabMethods = {}
-		
-		-- Função simplificada para criar botão
-		function tabMethods:CreateButton(buttonOptions)
-			local options = buttonOptions or {}
-			
-			local button = self.Utils.CreateElement("TextButton", {
-				Name = "Button",
-				Size = UDim2.new(1, 0, 0, 40),
-				BackgroundColor3 = theme.Background2,
-				Text = options.Name or "Button",
-				TextColor3 = theme.Primary,
-				Font = Enum.Font.Gotham,
-				TextSize = 14,
-				AutoButtonColor = false,
-				LayoutOrder = #tabFrame:GetChildren(),
-				Parent = tabFrame
-			}, {
-				self.Utils.CreateElement("UICorner", {
-					CornerRadius = UDim.new(0, 6)
-				}),
-				self.Utils.CreateElement("UIStroke", {
-					Color = theme.Stroke,
-					Thickness = 1
-				})
-			})
-			
-			-- Efeitos do botão
-			button.MouseEnter:Connect(function()
-				self.Utils.SmoothTween(button, {
-					BackgroundColor3 = Color3.fromRGB(
-						theme.Background2.R * 255 + 15,
-						theme.Background2.G * 255 + 15,
-						theme.Background2.B * 255 + 15
-					),
-					TextColor3 = Color3.new(1, 1, 1)
-				}, 0.2)
-			end)
-			
-			button.MouseLeave:Connect(function()
-				self.Utils.SmoothTween(button, {
-					BackgroundColor3 = theme.Background2,
-					TextColor3 = theme.Primary
-				}, 0.2)
-			end)
-			
-			-- Clique
-			if options.Callback then
-				button.MouseButton1Click:Connect(function()
-					-- Efeito de clique
-					self.Utils.SmoothTween(button, {
-						BackgroundColor3 = theme.Primary,
-						TextColor3 = Color3.new(1, 1, 1)
-					}, 0.1)
-					
-					task.wait(0.1)
-					
-					self.Utils.SmoothTween(button, {
-						BackgroundColor3 = theme.Background2,
-						TextColor3 = theme.Primary
-					}, 0.1)
-					
-					pcall(options.Callback)
-				end)
-				
-				-- Touch
-				button.InputBegan:Connect(function(input)
-					if input.UserInputType == Enum.UserInputType.Touch then
-						pcall(options.Callback)
-					end
-				end)
-			end
-			
-			return {
-				Instance = button,
-				SetText = function(text) button.Text = text end,
-				SetCallback = function(callback)
-					button.MouseButton1Click:Disconnect()
-					button.MouseButton1Click:Connect(function()
-						pcall(callback)
-					end)
-				end
-			}
-		end
-		
-		-- Adicionar tab
-		table.insert(tabs, {
-			id = tabId,
-			name = tabName,
-			button = tabButton,
-			frame = tabFrame,
-			icon = tabIcon,
-			methods = tabMethods
-		})
-		
-		-- Primeira tab visível
-		if tabId == 1 then
-			SelectTab()
-		end
-		
-		return tabMethods
-	end
-	
-	-- Métodos adicionais da janela
-	function window._methods:SetTitle(newTitle)
-		titleLabel.Text = newTitle
-	end
-	
-	function window._methods:ChangeTheme(themeName)
-		if self.Themes[themeName] then
-			-- Implementar mudança dinâmica de tema
-			return true
-		end
-		return false
-	end
-	
-	function window._methods:Minimize()
-		ToggleMinimize()
-	end
-	
-	function window._methods:Destroy()
-		screenGui:Destroy()
-	end
-	
-	function window._methods:Show()
-		mainContainer.Visible = true
-	end
-	
-	function window._methods:Hide()
-		mainContainer.Visible = false
-	end
-	
-	function window._methods:SetPosition(position)
-		mainContainer.Position = position
-	end
-	
-	function window._methods:GetPosition()
-		return mainContainer.Position
-	end
-	
-	function window._methods:IsMinimized()
-		return isMinimized
-	end
-	
-	-- Adicionar à lista de janelas
-	table.insert(self.Windows, window)
-	
-	return window._methods
+function Boladolib:CreateToggle(options)
+    local toggleOptions = options or {}
+    local parent = toggleOptions.Parent
+    local text = toggleOptions.Text or "Toggle"
+    local flag = toggleOptions.Flag or "Toggle"
+    local callback = toggleOptions.Callback or function() end
+    local default = toggleOptions.Default or false
+    
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Name = "ToggleFrame"
+    ToggleFrame.Size = UDim2.new(1, -20, 0, 25)
+    ToggleFrame.Position = UDim2.new(0, 10, 0, 0)
+    ToggleFrame.BackgroundTransparency = 1
+    ToggleFrame.Parent = parent
+    
+    local Label = Instance.new("TextLabel")
+    Label.Name = "Label"
+    Label.Size = UDim2.new(0.7, -5, 1, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = text
+    Label.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 12
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = ToggleFrame
+    
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Name = "ToggleButton"
+    ToggleButton.Size = UDim2.new(0, 40, 0, 20)
+    ToggleButton.Position = UDim2.new(1, -40, 0.5, -10)
+    ToggleButton.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+    ToggleButton.BorderColor3 = self.Themes[self.Instances.Theme]["Color Stroke"]
+    ToggleButton.BorderSizePixel = 1
+    ToggleButton.Text = ""
+    ToggleButton.Parent = ToggleFrame
+    
+    local ToggleCircle = Instance.new("Frame")
+    ToggleCircle.Name = "ToggleCircle"
+    ToggleCircle.Size = UDim2.new(0, 14, 0, 14)
+    ToggleCircle.Position = UDim2.new(0, 3, 0.5, -7)
+    ToggleCircle.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    ToggleCircle.BorderSizePixel = 0
+    ToggleCircle.Parent = ToggleButton
+    
+    local Corner1 = Instance.new("UICorner")
+    Corner1.CornerRadius = UDim.new(1, 0)
+    Corner1.Parent = ToggleButton
+    
+    local Corner2 = Instance.new("UICorner")
+    Corner2.CornerRadius = UDim.new(1, 0)
+    Corner2.Parent = ToggleCircle
+    
+    self.Flags[flag] = default
+    
+    local function updateToggle()
+        if self.Flags[flag] then
+            game:GetService("TweenService"):Create(ToggleCircle, TweenInfo.new(0.2), {
+                Position = UDim2.new(0, 23, 0.5, -7),
+                BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+            }):Play()
+            game:GetService("TweenService"):Create(ToggleButton, TweenInfo.new(0.2), {
+                BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+            }):Play()
+        else
+            game:GetService("TweenService"):Create(ToggleCircle, TweenInfo.new(0.2), {
+                Position = UDim2.new(0, 3, 0.5, -7),
+                BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+            }):Play()
+            game:GetService("TweenService"):Create(ToggleButton, TweenInfo.new(0.2), {
+                BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+            }):Play()
+        end
+    end
+    
+    ToggleButton.MouseButton1Click:Connect(function()
+        self.Flags[flag] = not self.Flags[flag]
+        updateToggle()
+        callback(self.Flags[flag])
+    end)
+    
+    updateToggle()
+    
+    return ToggleFrame
 end
 
--- Função de inicialização
-function BoladoHub:Init(options)
-	options = options or {}
-	
-	-- Aplicar configurações
-	if options.Theme and self.Themes[options.Theme] then
-		self.Config.DefaultTheme = options.Theme
-	end
-	
-	-- Mensagem de inicialização
-	print([[
-
-██████╗  ██████╗ ██╗      █████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗██████╗ 
-██╔══██╗██╔═══██╗██║     ██╔══██╗██╔══██╗██╔═══██╗██║  ██║██║   ██║██╔══██╗
-██████╔╝██║   ██║██║     ███████║██║  ██║██║   ██║███████║██║   ██║██████╔╝
-██╔══██╗██║   ██║██║     ██╔══██║██║  ██║██║   ██║██╔══██║██║   ██║██╔══██╗
-██████╔╝╚██████╔╝███████╗██║  ██║██████╔╝╚██████╔╝██║  ██║╚██████╔╝██████╔╝
-╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ 
-																			
-Version: ]] .. self.Info.Version .. [[
-Author: ]] .. self.Info.Author .. [[
-Theme: ]] .. self.Config.DefaultTheme .. [[
-	
-	]])
-	
-	return self
+function Boladolib:CreateSlider(options)
+    local sliderOptions = options or {}
+    local parent = sliderOptions.Parent
+    local text = sliderOptions.Text or "Slider"
+    local min = sliderOptions.Min or 0
+    local max = sliderOptions.Max or 100
+    local default = sliderOptions.Default or 50
+    local flag = sliderOptions.Flag or "Slider"
+    local callback = sliderOptions.Callback or function() end
+    local precise = sliderOptions.Precise or false
+    
+    local SliderFrame = Instance.new("Frame")
+    SliderFrame.Name = "SliderFrame"
+    SliderFrame.Size = UDim2.new(1, -20, 0, 35)
+    SliderFrame.Position = UDim2.new(0, 10, 0, 0)
+    SliderFrame.BackgroundTransparency = 1
+    SliderFrame.Parent = parent
+    
+    local Label = Instance.new("TextLabel")
+    Label.Name = "Label"
+    Label.Size = UDim2.new(1, 0, 0, 15)
+    Label.BackgroundTransparency = 1
+    Label.Text = text
+    Label.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 12
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = SliderFrame
+    
+    local ValueLabel = Instance.new("TextLabel")
+    ValueLabel.Name = "ValueLabel"
+    ValueLabel.Size = UDim2.new(0, 40, 0, 15)
+    ValueLabel.Position = UDim2.new(1, -40, 0, 0)
+    ValueLabel.BackgroundTransparency = 1
+    ValueLabel.Text = tostring(default)
+    ValueLabel.TextColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+    ValueLabel.Font = Enum.Font.GothamBold
+    ValueLabel.TextSize = 12
+    ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
+    ValueLabel.Parent = SliderFrame
+    
+    local SliderBack = Instance.new("Frame")
+    SliderBack.Name = "SliderBack"
+    SliderBack.Size = UDim2.new(1, 0, 0, 6)
+    SliderBack.Position = UDim2.new(0, 0, 1, -6)
+    SliderBack.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+    SliderBack.BorderColor3 = self.Themes[self.Instances.Theme]["Color Stroke"]
+    SliderBack.BorderSizePixel = 1
+    SliderBack.Parent = SliderFrame
+    
+    local SliderFill = Instance.new("Frame")
+    SliderFill.Name = "SliderFill"
+    SliderFill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+    SliderFill.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+    SliderFill.BorderSizePixel = 0
+    SliderFill.Parent = SliderBack
+    
+    local SliderButton = Instance.new("TextButton")
+    SliderButton.Name = "SliderButton"
+    SliderButton.Size = UDim2.new(0, 16, 0, 16)
+    SliderButton.Position = UDim2.new((default - min) / (max - min), -8, 0.5, -8)
+    SliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderButton.BorderSizePixel = 0
+    SliderButton.Text = ""
+    SliderButton.Parent = SliderBack
+    
+    local Corner1 = Instance.new("UICorner")
+    Corner1.CornerRadius = UDim.new(0, 3)
+    Corner1.Parent = SliderBack
+    
+    local Corner2 = Instance.new("UICorner")
+    Corner2.CornerRadius = UDim.new(0, 3)
+    Corner2.Parent = SliderFill
+    
+    local Corner3 = Instance.new("UICorner")
+    Corner3.CornerRadius = UDim.new(1, 0)
+    Corner3.Parent = SliderButton
+    
+    self.Flags[flag] = default
+    
+    local dragging = false
+    
+    local function updateSlider(value)
+        local clamped = math.clamp(value, min, max)
+        local rounded = precise and clamped or math.floor(clamped)
+        
+        self.Flags[flag] = rounded
+        SliderFill.Size = UDim2.new((rounded - min) / (max - min), 0, 1, 0)
+        SliderButton.Position = UDim2.new((rounded - min) / (max - min), -8, 0.5, -8)
+        ValueLabel.Text = tostring(rounded)
+        callback(rounded)
+    end
+    
+    SliderButton.MouseButton1Down:Connect(function()
+        dragging = true
+    end)
+    
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local mousePos = UserInputService:GetMouseLocation()
+            local sliderPos = SliderBack.AbsolutePosition
+            local sliderSize = SliderBack.AbsoluteSize
+            
+            local relativeX = (mousePos.X - sliderPos.X) / sliderSize.X
+            local value = min + (max - min) * relativeX
+            
+            updateSlider(value)
+        end
+    end)
+    
+    return SliderFrame
 end
 
--- Retornar a biblioteca
-return BoladoHub
+function Boladolib:CreateDropdown(options)
+    local dropdownOptions = options or {}
+    local parent = dropdownOptions.Parent
+    local text = dropdownOptions.Text or "Dropdown"
+    local optionsList = dropdownOptions.Options or {"Option 1", "Option 2"}
+    local default = dropdownOptions.Default or optionsList[1]
+    local flag = dropdownOptions.Flag or "Dropdown"
+    local callback = dropdownOptions.Callback or function() end
+    
+    local DropdownFrame = Instance.new("Frame")
+    DropdownFrame.Name = "DropdownFrame"
+    DropdownFrame.Size = UDim2.new(1, -20, 0, 30)
+    DropdownFrame.Position = UDim2.new(0, 10, 0, 0)
+    DropdownFrame.BackgroundTransparency = 1
+    DropdownFrame.Parent = parent
+    
+    local MainButton = Instance.new("TextButton")
+    MainButton.Name = "MainButton"
+    MainButton.Size = UDim2.new(1, 0, 0, 30)
+    MainButton.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+    MainButton.BorderColor3 = self.Themes[self.Instances.Theme]["Color Stroke"]
+    MainButton.BorderSizePixel = 1
+    MainButton.Text = text .. ": " .. default
+    MainButton.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    MainButton.Font = Enum.Font.Gotham
+    MainButton.TextSize = 12
+    MainButton.Parent = DropdownFrame
+    
+    local Arrow = Instance.new("ImageLabel")
+    Arrow.Name = "Arrow"
+    Arrow.Size = UDim2.new(0, 16, 0, 16)
+    Arrow.Position = UDim2.new(1, -20, 0.5, -8)
+    Arrow.BackgroundTransparency = 1
+    Arrow.Image = "rbxassetid://10734904599" -- Seta para baixo
+    Arrow.ImageColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    Arrow.Parent = MainButton
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 4)
+    Corner.Parent = MainButton
+    
+    local OptionsFrame = Instance.new("Frame")
+    OptionsFrame.Name = "OptionsFrame"
+    OptionsFrame.Size = UDim2.new(1, 0, 0, 0)
+    OptionsFrame.Position = UDim2.new(0, 0, 1, 5)
+    OptionsFrame.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+    OptionsFrame.BorderColor3 = self.Themes[self.Instances.Theme]["Color Stroke"]
+    OptionsFrame.BorderSizePixel = 1
+    OptionsFrame.Visible = false
+    OptionsFrame.ClipsDescendants = true
+    OptionsFrame.Parent = DropdownFrame
+    
+    local OptionsList = Instance.new("UIListLayout")
+    OptionsList.Padding = UDim.new(0, 1)
+    OptionsList.Parent = OptionsFrame
+    
+    self.Flags[flag] = default
+    local isOpen = false
+    
+    local function updateOptions()
+        OptionsFrame:ClearAllChildren()
+        
+        for i, option in ipairs(optionsList) do
+            local OptionButton = Instance.new("TextButton")
+            OptionButton.Name = option
+            OptionButton.Size = UDim2.new(1, 0, 0, 25)
+            OptionButton.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+            OptionButton.BorderSizePixel = 0
+            OptionButton.Text = option
+            OptionButton.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+            OptionButton.Font = Enum.Font.Gotham
+            OptionButton.TextSize = 12
+            OptionButton.Parent = OptionsFrame
+            
+            OptionButton.MouseButton1Click:Connect(function()
+                self.Flags[flag] = option
+                MainButton.Text = text .. ": " .. option
+                isOpen = false
+                OptionsFrame.Visible = false
+                game:GetService("TweenService"):Create(Arrow, TweenInfo.new(0.2), {
+                    Rotation = 0
+                }):Play()
+                callback(option)
+            end)
+            
+            OptionButton.MouseEnter:Connect(function()
+                game:GetService("TweenService"):Create(OptionButton, TweenInfo.new(0.2), {
+                    BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+                }):Play()
+            end)
+            
+            OptionButton.MouseLeave:Connect(function()
+                game:GetService("TweenService"):Create(OptionButton, TweenInfo.new(0.2), {
+                    BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+                }):Play()
+            end)
+        end
+        
+        OptionsFrame.Size = UDim2.new(1, 0, 0, #optionsList * 26)
+    end
+    
+    updateOptions()
+    
+    MainButton.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        OptionsFrame.Visible = isOpen
+        
+        if isOpen then
+            game:GetService("TweenService"):Create(Arrow, TweenInfo.new(0.2), {
+                Rotation = 180
+            }):Play()
+        else
+            game:GetService("TweenService"):Create(Arrow, TweenInfo.new(0.2), {
+                Rotation = 0
+            }):Play()
+        end
+    end)
+    
+    return DropdownFrame
+end
+
+function Boladolib:CreateTextBox(options)
+    local textboxOptions = options or {}
+    local parent = textboxOptions.Parent
+    local text = textboxOptions.Text or "Text Box"
+    local default = textboxOptions.Default or ""
+    local placeholder = textboxOptions.Placeholder or "Enter text..."
+    local callback = textboxOptions.Callback or function() end
+    
+    local TextBoxFrame = Instance.new("Frame")
+    TextBoxFrame.Name = "TextBoxFrame"
+    TextBoxFrame.Size = UDim2.new(1, -20, 0, 30)
+    TextBoxFrame.Position = UDim2.new(0, 10, 0, 0)
+    TextBoxFrame.BackgroundTransparency = 1
+    TextBoxFrame.Parent = parent
+    
+    local Label = Instance.new("TextLabel")
+    Label.Name = "Label"
+    Label.Size = UDim2.new(0.5, -5, 1, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = text
+    Label.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 12
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = TextBoxFrame
+    
+    local TextBox = Instance.new("TextBox")
+    TextBox.Name = "TextBox"
+    TextBox.Size = UDim2.new(0.5, -5, 1, 0)
+    TextBox.Position = UDim2.new(0.5, 5, 0, 0)
+    TextBox.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Hub 2"]
+    TextBox.BorderColor3 = self.Themes[self.Instances.Theme]["Color Stroke"]
+    TextBox.BorderSizePixel = 1
+    TextBox.Text = default
+    TextBox.PlaceholderText = placeholder
+    TextBox.TextColor3 = self.Themes[self.Instances.Theme]["Color Text"]
+    TextBox.Font = Enum.Font.Gotham
+    TextBox.TextSize = 12
+    TextBox.ClearTextOnFocus = false
+    TextBox.Parent = TextBoxFrame
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 4)
+    Corner.Parent = TextBox
+    
+    TextBox.FocusLost:Connect(function()
+        callback(TextBox.Text)
+    end)
+    
+    return TextBoxFrame
+end
+
+function Boladolib:SetupResize(frame)
+    local resizeButton = Instance.new("TextButton")
+    resizeButton.Name = "ResizeButton"
+    resizeButton.Size = UDim2.new(0, 10, 0, 10)
+    resizeButton.Position = UDim2.new(1, -10, 1, -10)
+    resizeButton.BackgroundTransparency = 0.5
+    resizeButton.BackgroundColor3 = self.Themes[self.Instances.Theme]["Color Theme"]
+    resizeButton.BorderSizePixel = 0
+    resizeButton.Text = ""
+    resizeButton.Parent = frame
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 2)
+    Corner.Parent = resizeButton
+    
+    local dragging = false
+    local dragStart, startSize
+    
+    resizeButton.MouseButton1Down:Connect(function(input)
+        dragging = true
+        dragStart = input.Position
+        startSize = frame.Size
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local delta = input.Position - dragStart
+            local newWidth = math.clamp(startSize.X.Offset + delta.X, 400, 800)
+            local newHeight = math.clamp(startSize.Y.Offset + delta.Y, 200, 600)
+            
+            frame.Size = UDim2.new(0, newWidth, 0, newHeight)
+            frame.Position = UDim2.new(
+                0.5, -newWidth/2,
+                0.5, -newHeight/2
+            )
+            
+            self.Save.UISize = {newWidth, newHeight}
+        end
+    end)
+    
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+end
+
+function Boladolib:SetTheme(themeName)
+    if not self.Themes[themeName] then
+        themeName = "NeonPink"
+    end
+    
+    self.Save.Theme = themeName
+    
+    if self.Instances.MainFrame then
+        -- Atualizar cores da interface
+        self.Instances.MainFrame.BackgroundColor3 = self.Themes[themeName]["Color Hub 2"]
+        
+        local titleBar = self.Instances.MainFrame:FindFirstChild("TitleBar")
+        if titleBar then
+            titleBar.BackgroundColor3 = self.Themes[themeName]["Color Hub 2"]
+            
+            local titleGradient = titleBar:FindFirstChildOfClass("UIGradient")
+            if titleGradient then
+                titleGradient.Color = self.Themes[themeName]["Color Hub 1"]
+            end
+            
+            local titleLabel = titleBar:FindFirstChild("TitleLabel")
+            if titleLabel then
+                titleLabel.TextColor3 = self.Themes[themeName]["Color Text"]
+            end
+        end
+        
+        local tabsFrame = self.Instances.MainFrame:FindFirstChild("TabsFrame")
+        if tabsFrame then
+            tabsFrame.BackgroundColor3 = self.Themes[themeName]["Color Hub 2"]
+        end
+        
+        local contentFrame = self.Instances.MainFrame:FindFirstChild("ContentFrame")
+        if contentFrame then
+            contentFrame.BackgroundColor3 = self.Themes[themeName]["Color Hub 2"]
+        end
+        
+        -- Atualizar instância do tema
+        self.Instances.Theme = themeName
+    end
+end
+
+function Boladolib:Destroy()
+    if self.Instances.ScreenGui then
+        self.Instances.ScreenGui:Destroy()
+        self.Instances = {}
+        self.Elements = {}
+        self.Tabs = {}
+    end
+end
+
+return Boladolib
