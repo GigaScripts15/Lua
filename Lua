@@ -137,8 +137,8 @@ local BoladoHub = {
 		Author = "BoladoHub"
 	},
 	Save = {
-		UISize = {580, 420},
-		TabSize = 170,
+		UISize = {400, 350},
+		TabSize = 160,
 		Theme = "Darker",
 		Minimized = false
 	},
