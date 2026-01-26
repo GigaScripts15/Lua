@@ -52,7 +52,7 @@ local boladolib = {
 		Version = "1.1.0"
 	},
 	Save = {
-		UISize = {500, 380},
+		UISize = {500, 350},
 		TabSize = 160,
 		Theme = "Darker"
 	},
