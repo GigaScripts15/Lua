@@ -1,4 +1,4 @@
--- BoladoHub v2.1 - OTIMIZADO SEM LAG
+-- BoladoHub v3.0 - SUPER OTIMIZADO & VISÍVEL
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -10,463 +10,676 @@ local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 
 local BoladoHub = {
-	Themes = {
-		Darker = {
-			["Color Hub 1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(25, 25, 25)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(32.5, 32.5, 32.5)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(25, 25, 25))
-			}),
-			["Color Hub 2"] = Color3.fromRGB(30, 30, 30),
-			["Color Stroke"] = Color3.fromRGB(40, 40, 40),
-			["Color Theme"] = Color3.fromRGB(88, 101, 242),
-			["Color Text"] = Color3.fromRGB(243, 243, 243),
-			["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
-		}
-	},
-	Info = {
-		Version = "2.1.0",
-		Author = "BoladoHub"
-	},
-	Save = {
-		UISize = {580, 420},
-		TabSize = 170,
-		Theme = "Darker",
-		Minimized = false
-	},
-	Settings = {},
-	Connection = {},
-	Instances = {},
-	Elements = {},
-	Options = {},
-	Flags = {},
-	Tabs = {},
-	Icons = {
-		["sword"] = "rbxassetid://10734975486",
-		["eye"] = "rbxassetid://10723346959",
-		["user"] = "rbxassetid://10747373176",
-		["settings"] = "rbxassetid://10734950309",
-		["star"] = "rbxassetid://10734966248",
-		["bolt"] = "rbxassetid://10709721749"
-	}
+    Themes = {
+        Darker = {
+            ["MainColor"] = Color3.fromRGB(30, 30, 40),
+            ["SecondaryColor"] = Color3.fromRGB(40, 40, 50),
+            ["AccentColor"] = Color3.fromRGB(88, 101, 242),
+            ["TextColor"] = Color3.fromRGB(255, 255, 255),
+            ["SubTextColor"] = Color3.fromRGB(180, 180, 180)
+        },
+        Light = {
+            ["MainColor"] = Color3.fromRGB(240, 240, 245),
+            ["SecondaryColor"] = Color3.fromRGB(255, 255, 255),
+            ["AccentColor"] = Color3.fromRGB(0, 122, 255),
+            ["TextColor"] = Color3.fromRGB(30, 30, 30),
+            ["SubTextColor"] = Color3.fromRGB(100, 100, 100)
+        }
+    },
+    Info = {
+        Version = "3.0.0",
+        Author = "BoladoHub"
+    },
+    CurrentTheme = "Darker",
+    Instances = {},
+    UIObjects = {},
+    ActiveTabs = {}
 }
 
--- FUNÇÃO OTIMIZADA PARA CRIAR ELEMENTOS
-local function CreateElement(className, properties)
-	local element = Instance.new(className)
-	for property, value in pairs(properties) do
-		if property == "Parent" then
-			element.Parent = value
-		else
-			element[property] = value
-		end
-	end
-	return element
+-- 🔧 FUNÇÃO OTIMIZADA PARA CRIAR ELEMENTOS
+local function CreateElement(className, properties, children)
+    local element = Instance.new(className)
+    
+    -- Aplicar propriedades
+    for property, value in pairs(properties) do
+        if property == "Parent" then
+            element.Parent = value
+        else
+            local success, err = pcall(function()
+                element[property] = value
+            end)
+            if not success then
+                warn("Erro ao definir propriedade", property, ":", err)
+            end
+        end
+    end
+    
+    -- Adicionar filhos
+    if children then
+        for _, child in pairs(children) do
+            child.Parent = element
+        end
+    end
+    
+    return element
 end
 
--- SISTEMA DE DRAG OTIMIZADO (SEM LAG)
-local function SetupDraggable(frame, handle)
-	local dragging = false
-	local dragStart, frameStart
-	local dragConnection
-	
-	-- Função para iniciar drag (OTIMIZADA)
-	local function BeginDrag(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-		   input.UserInputType == Enum.UserInputType.Touch then
-			
-			dragging = true
-			dragStart = input.Position
-			frameStart = frame.Position
-			
-			-- Efeito visual leve
-			handle.BackgroundTransparency = 0.2
-		end
-	end
-	
-	-- Função para atualizar drag (OTIMIZADA - usa Heartbeat em vez de RenderStepped)
-	local function UpdateDrag()
-		if dragging then
-			local mousePos
-			
-			-- Para mouse
-			if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
-				mousePos = Vector2.new(PlayerMouse.X, PlayerMouse.Y)
-			-- Para touch
-			elseif UserInputService.TouchEnabled then
-				local touchPoints = UserInputService:GetConnectedTouchPoints()
-				if #touchPoints > 0 then
-					mousePos = touchPoints[1].Position
-				else
-					dragging = false
-					handle.BackgroundTransparency = 0
-					if dragConnection then
-						dragConnection:Disconnect()
-					end
-					return
-				end
-			else
-				dragging = false
-				handle.BackgroundTransparency = 0
-				if dragConnection then
-					dragConnection:Disconnect()
-				end
-				return
-			end
-			
-			local delta = mousePos - dragStart
-			frame.Position = UDim2.new(
-				frameStart.X.Scale,
-				frameStart.X.Offset + delta.X,
-				frameStart.Y.Scale,
-				frameStart.Y.Offset + delta.Y
-			)
-		end
-	end
-	
-	-- Conectar eventos
-	handle.InputBegan:Connect(BeginDrag)
-	
-	handle.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-		   input.UserInputType == Enum.UserInputType.Touch then
-			dragging = false
-			handle.BackgroundTransparency = 0
-			
-			if dragConnection then
-				dragConnection:Disconnect()
-				dragConnection = nil
-			end
-		end
-	end)
-	
-	-- Usar Heartbeat (menos intensivo que RenderStepped)
-	handle.InputBegan:Connect(function(input)
-		if (input.UserInputType == Enum.UserInputType.MouseButton1 or 
-			input.UserInputType == Enum.UserInputType.Touch) and not dragConnection then
-			
-			dragConnection = RunService.Heartbeat:Connect(UpdateDrag)
-		end
-	end)
-	
-	-- Limpar conexão
-	frame.Destroying:Connect(function()
-		if dragConnection then
-			dragConnection:Disconnect()
-		end
-	end)
+-- 🎯 SISTEMA DE DRAG ULTRA OTIMIZADO
+local function CreateDraggable(frame, handle)
+    local dragging, dragStart, frameStart, dragConnection = false
+    
+    -- Otimizado: usa evento único em vez de múltiplos
+    handle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            frameStart = frame.Position
+            
+            -- Efeito visual sutil
+            if handle:IsA("GuiObject") then
+                TweenService:Create(handle, TweenInfo.new(0.1), {
+                    BackgroundTransparency = 0.9
+                }):Play()
+            end
+            
+            -- Conexão otimizada (usando Heartbeat)
+            dragConnection = RunService.Heartbeat:Connect(function()
+                if dragging then
+                    local mousePos = UserInputService:GetMouseLocation()
+                    local delta = mousePos - dragStart
+                    
+                    frame.Position = UDim2.new(
+                        frameStart.X.Scale,
+                        math.clamp(frameStart.X.Offset + delta.X, 0, workspace.CurrentCamera.ViewportSize.X - frame.AbsoluteSize.X),
+                        frameStart.Y.Scale,
+                        math.clamp(frameStart.Y.Offset + delta.Y, 0, workspace.CurrentCamera.ViewportSize.Y - frame.AbsoluteSize.Y)
+                    )
+                end
+            end)
+        end
+    end)
+    
+    -- Otimizado: usa eventos globais
+    local function EndDrag()
+        dragging = false
+        if dragConnection then
+            dragConnection:Disconnect()
+            dragConnection = nil
+        end
+        
+        if handle:IsA("GuiObject") then
+            TweenService:Create(handle, TweenInfo.new(0.1), {
+                BackgroundTransparency = 1
+            }):Play()
+        end
+    end
+    
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            EndDrag()
+        end
+    end)
+    
+    -- Cleanup
+    frame.Destroying:Connect(EndDrag)
 end
 
--- FUNÇÃO PRINCIPAL SIMPLIFICADA E OTIMIZADA
+-- 🎨 SISTEMA DE TABS OTIMIZADO
+local TabSystem = {}
+TabSystem.__index = TabSystem
+
+function TabSystem.new(container)
+    local self = setmetatable({
+        Container = container,
+        Tabs = {},
+        CurrentTab = nil,
+        TabButtons = CreateElement("Frame", {
+            Name = "TabButtons",
+            Size = UDim2.new(1, 0, 0, 40),
+            BackgroundTransparency = 1,
+            Parent = container
+        }, {
+            CreateElement("UIListLayout", {
+                FillDirection = Enum.FillDirection.Horizontal,
+                Padding = UDim.new(0, 5)
+            })
+        })
+    }, TabSystem)
+    
+    return self
+end
+
+function TabSystem:AddTab(name, icon)
+    local theme = BoladoHub.Themes[BoladoHub.CurrentTheme]
+    local tabId = #self.Tabs + 1
+    
+    -- Botão da Tab
+    local tabButton = CreateElement("TextButton", {
+        Name = "Tab_" .. tabId,
+        Size = UDim2.new(0, 120, 1, 0),
+        BackgroundColor3 = theme.SecondaryColor,
+        Text = icon and (icon .. " " .. name) or name,
+        TextColor3 = theme.TextColor,
+        Font = Enum.Font.GothamBold,
+        TextSize = 14,
+        AutoButtonColor = false
+    }, {
+        CreateElement("UICorner", {CornerRadius = UDim.new(0, 6)}),
+        CreateElement("UIStroke", {
+            Color = theme.AccentColor,
+            Thickness = 1
+        })
+    })
+    
+    tabButton.Parent = self.TabButtons
+    
+    -- Conteúdo da Tab
+    local tabContent = CreateElement("ScrollingFrame", {
+        Name = "TabContent_" .. tabId,
+        Size = UDim2.new(1, -20, 1, -50),
+        Position = UDim2.new(0, 10, 0, 50),
+        BackgroundTransparency = 1,
+        ScrollBarImageColor3 = theme.AccentColor,
+        ScrollBarThickness = 4,
+        Visible = false,
+        Parent = self.Container
+    }, {
+        CreateElement("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 10)
+        }),
+        CreateElement("UIPadding", {
+            PaddingTop = UDim.new(0, 10),
+            PaddingLeft = UDim.new(0, 5),
+            PaddingRight = UDim.new(0, 5)
+        })
+    })
+    
+    -- Efeitos do botão
+    tabButton.MouseEnter:Connect(function()
+        TweenService:Create(tabButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(60, 70, 85)
+        }):Play()
+    end)
+    
+    tabButton.MouseLeave:Connect(function()
+        TweenService:Create(tabButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = self.CurrentTab == tabId and theme.AccentColor or theme.SecondaryColor
+        }):Play()
+    end)
+    
+    -- Clique na Tab
+    tabButton.MouseButton1Click:Connect(function()
+        self:SwitchTab(tabId)
+    end)
+    
+    -- Armazenar tab
+    local tab = {
+        Id = tabId,
+        Button = tabButton,
+        Content = tabContent,
+        Elements = {}
+    }
+    
+    table.insert(self.Tabs, tab)
+    
+    -- Se for a primeira tab, ativar
+    if #self.Tabs == 1 then
+        self:SwitchTab(1)
+    end
+    
+    return {
+        AddButton = function(options)
+            return self:CreateButton(tabId, options)
+        end,
+        AddLabel = function(options)
+            return self:CreateLabel(tabId, options)
+        end,
+        AddToggle = function(options)
+            return self:CreateToggle(tabId, options)
+        end,
+        AddSlider = function(options)
+            return self:CreateSlider(tabId, options)
+        end
+    }
+end
+
+function TabSystem:SwitchTab(tabId)
+    if self.CurrentTab == tabId then return end
+    
+    local theme = BoladoHub.Themes[BoladoHub.CurrentTheme]
+    
+    -- Atualizar botões
+    for i, tab in ipairs(self.Tabs) do
+        tab.Content.Visible = (i == tabId)
+        TweenService:Create(tab.Button, TweenInfo.new(0.3), {
+            BackgroundColor3 = (i == tabId) and theme.AccentColor or theme.SecondaryColor,
+            Size = UDim2.new(0, (i == tabId) and 140 or 120, 1, 0)
+        }):Play()
+    end
+    
+    self.CurrentTab = tabId
+end
+
+-- 📋 COMPONENTES DA UI (OTIMIZADOS)
+function TabSystem:CreateButton(tabId, options)
+    local theme = BoladoHub.Themes[BoladoHub.CurrentTheme]
+    local tab = self.Tabs[tabId]
+    
+    local button = CreateElement("TextButton", {
+        Name = "Button_" .. #tab.Elements + 1,
+        Size = UDim2.new(1, 0, 0, 45),
+        BackgroundColor3 = theme.SecondaryColor,
+        Text = options.Text or "Button",
+        TextColor3 = theme.TextColor,
+        Font = Enum.Font.GothamSemibold,
+        TextSize = 14,
+        LayoutOrder = #tab.Elements + 1,
+        AutoButtonColor = false
+    }, {
+        CreateElement("UICorner", {CornerRadius = UDim.new(0, 8)}),
+        CreateElement("UIStroke", {
+            Color = theme.AccentColor,
+            Thickness = 1
+        })
+    })
+    
+    button.Parent = tab.Content
+    table.insert(tab.Elements, button)
+    
+    -- Efeitos
+    button.MouseEnter:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(70, 80, 95),
+            Size = UDim2.new(1, 10, 0, 45)
+        }):Play()
+    end)
+    
+    button.MouseLeave:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {
+            BackgroundColor3 = theme.SecondaryColor,
+            Size = UDim2.new(1, 0, 0, 45)
+        }):Play()
+    end)
+    
+    -- Clique
+    if options.Callback and type(options.Callback) == "function" then
+        button.MouseButton1Click:Connect(function()
+            task.spawn(function() -- Evita travar a UI
+                pcall(options.Callback)
+            end)
+        end)
+    end
+    
+    return button
+end
+
+function TabSystem:CreateLabel(tabId, options)
+    local theme = BoladoHub.Themes[BoladoHub.CurrentTheme]
+    local tab = self.Tabs[tabId]
+    
+    local label = CreateElement("TextLabel", {
+        Name = "Label_" .. #tab.Elements + 1,
+        Size = UDim2.new(1, 0, 0, 30),
+        BackgroundTransparency = 1,
+        Text = options.Text or "Label",
+        TextColor3 = options.Color or theme.TextColor,
+        Font = Enum.Font.GothamBold,
+        TextSize = options.Size or 16,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        LayoutOrder = #tab.Elements + 1
+    })
+    
+    label.Parent = tab.Content
+    table.insert(tab.Elements, label)
+    
+    return label
+end
+
+-- 🪟 FUNÇÃO PRINCIPAL PARA CRIAR JANELA
 function BoladoHub:CreateWindow(options)
-	options = options or {}
-	
-	local theme = self.Themes[self.Save.Theme]
-	
-	-- ScreenGui
-	local screenGui = CreateElement("ScreenGui", {
-		Name = "BoladoHubUI",
-		ResetOnSpawn = false,
-		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-		Parent = Player:WaitForChild("PlayerGui")
-	})
-	
-	-- Frame principal (SIMPLIFICADO PARA TESTE)
-	local mainFrame = CreateElement("Frame", {
-		Name = "MainFrame",
-		Size = UDim2.new(0, 500, 0, 400), -- Tamanho menor para teste
-		Position = UDim2.new(0.5, -250, 0.5, -200),
-		BackgroundColor3 = theme["Color Hub 2"],
-		BackgroundTransparency = 0,
-		Parent = screenGui
-	})
-	
-	local uiCorner = CreateElement("UICorner", {
-		CornerRadius = UDim.new(0, 10),
-		Parent = mainFrame
-	})
-	
-	local uiStroke = CreateElement("UIStroke", {
-		Color = theme["Color Theme"],
-		Thickness = 2,
-		Parent = mainFrame
-	})
-	
-	-- Barra de título (SIMPLES E VISÍVEL)
-	local titleBar = CreateElement("Frame", {
-		Name = "TitleBar",
-		Size = UDim2.new(1, 0, 0, 40),
-		BackgroundColor3 = theme["Color Theme"], -- COR FORTE PARA VISIBILIDADE
-		Parent = mainFrame
-	})
-	
-	-- Título GRANDE E VISÍVEL
-	local titleText = CreateElement("TextLabel", {
-		Name = "Title",
-		Size = UDim2.new(1, -100, 1, 0),
-		Position = UDim2.new(0, 10, 0, 0),
-		BackgroundTransparency = 1,
-		Text = "🎮 BOLADOHUB 🎮",
-		TextColor3 = Color3.new(1, 1, 1),
-		Font = Enum.Font.GothamBold,
-		TextSize = 18,
-		TextXAlignment = Enum.TextXAlignment.Left,
-		Parent = titleBar
-	})
-	
-	-- Botões da barra
-	local titleButtons = CreateElement("Frame", {
-		Name = "TitleButtons",
-		Size = UDim2.new(0, 80, 1, 0),
-		Position = UDim2.new(1, -85, 0, 0),
-		BackgroundTransparency = 1,
-		Parent = titleBar
-	})
-	
-	-- Botão minimizar
-	local minimizeBtn = CreateElement("TextButton", {
-		Name = "Minimize",
-		Size = UDim2.new(0, 30, 0, 30),
-		Position = UDim2.new(0, 0, 0.5, -15),
-		BackgroundColor3 = Color3.fromRGB(255, 180, 0),
-		Text = "_",
-		TextColor3 = Color3.new(1, 1, 1),
-		Font = Enum.Font.GothamBold,
-		TextSize = 14,
-		AutoButtonColor = false,
-		Parent = titleButtons
-	})
-	
-	-- Botão fechar
-	local closeBtn = CreateElement("TextButton", {
-		Name = "Close",
-		Size = UDim2.new(0, 30, 0, 30),
-		Position = UDim2.new(1, -35, 0.5, -15),
-		BackgroundColor3 = Color3.fromRGB(255, 60, 60),
-		Text = "✕",
-		TextColor3 = Color3.new(1, 1, 1),
-		Font = Enum.Font.GothamBold,
-		TextSize = 16,
-		AutoButtonColor = false,
-		Parent = titleButtons
-	})
-	
-	-- Área de conteúdo VISÍVEL
-	local contentArea = CreateElement("Frame", {
-		Name = "ContentArea",
-		Size = UDim2.new(1, -20, 1, -60),
-		Position = UDim2.new(0, 10, 0, 55),
-		BackgroundColor3 = Color3.fromRGB(40, 40, 40), -- FUNDO VISÍVEL
-		BackgroundTransparency = 0, -- NÃO TRANSPARENTE
-		Parent = mainFrame
-	})
-	
-	local contentCorner = CreateElement("UICorner", {
-		CornerRadius = UDim.new(0, 8),
-		Parent = contentArea
-	})
-	
-	-- Tabs VISÍVEIS
-	local tabButtons = CreateElement("Frame", {
-		Name = "TabButtons",
-		Size = UDim2.new(1, 0, 0, 40),
-		BackgroundTransparency = 1,
-		Parent = contentArea
-	})
-	
-	-- Conteúdo das tabs VISÍVEL
-	local tabContent = CreateElement("Frame", {
-		Name = "TabContent",
-		Size = UDim2.new(1, 0, 1, -45),
-		Position = UDim2.new(0, 0, 0, 45),
-		BackgroundColor3 = Color3.fromRGB(50, 50, 50), -- FUNDO VISÍVEL
-		BackgroundTransparency = 0, -- NÃO TRANSPARENTE
-		Parent = contentArea
-	})
-	
-	local tabContentCorner = CreateElement("UICorner", {
-		CornerRadius = UDim.new(0, 8),
-		Parent = tabContent
-	})
-	
-	-- CONFIGURAR DRAG OTIMIZADO
-	SetupDraggable(mainFrame, titleBar)
-	
-	-- Sistema de minimizar
-	local minimized = false
-	local originalSize = mainFrame.Size
-	
-	minimizeBtn.MouseButton1Click:Connect(function()
-		minimized = not minimized
-		
-		if minimized then
-			-- Minimizar
-			TweenService:Create(mainFrame, TweenInfo.new(0.3), {
-				Size = UDim2.new(0, 300, 0, 40)
-			}):Play()
-			
-			contentArea.Visible = false
-			minimizeBtn.Text = "□"
-		else
-			-- Maximizar
-			TweenService:Create(mainFrame, TweenInfo.new(0.3), {
-				Size = originalSize
-			}):Play()
-			
-			contentArea.Visible = true
-			minimizeBtn.Text = "_"
-		end
-	end)
-	
-	-- Efeitos simples para botões
-	local function SimpleButtonEffect(button, hoverColor)
-		button.MouseEnter:Connect(function()
-			button.BackgroundColor3 = hoverColor
-		end)
-		
-		button.MouseLeave:Connect(function()
-			button.BackgroundColor3 = button.Name == "Close" and Color3.fromRGB(255, 60, 60) or Color3.fromRGB(255, 180, 0)
-		end)
-	end
-	
-	SimpleButtonEffect(minimizeBtn, Color3.fromRGB(255, 220, 100))
-	SimpleButtonEffect(closeBtn, Color3.fromRGB(255, 100, 100))
-	
-	-- Fechar
-	closeBtn.MouseButton1Click:Connect(function()
-		screenGui:Destroy()
-	end)
-	
-	-- Objeto da janela
-	local window = {
-		_instance = mainFrame,
-		_screenGui = screenGui,
-		_tabs = {},
-		_currentTab = 1,
-		_methods = {}
-	}
-	
-	-- Função para criar botão SIMPLES E VISÍVEL
-	function window._methods:CreateButton(btnOptions)
-		local options = btnOptions or {}
-		
-		local button = CreateElement("TextButton", {
-			Size = UDim2.new(1, -20, 0, 45),
-			Position = UDim2.new(0, 10, 0, (#tabContent:GetChildren() * 55) + 10),
-			BackgroundColor3 = theme["Color Hub 2"],
-			Text = options.Name or "BOTÃO TESTE",
-			TextColor3 = theme["Color Theme"],
-			Font = Enum.Font.GothamBold,
-			TextSize = 14,
-			AutoButtonColor = false,
-			Parent = tabContent
-		})
-		
-		local btnCorner = CreateElement("UICorner", {
-			CornerRadius = UDim.new(0, 8),
-			Parent = button
-		})
-		
-		-- Efeitos SIMPLES
-		button.MouseEnter:Connect(function()
-			button.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-		end)
-		
-		button.MouseLeave:Connect(function()
-			button.BackgroundColor3 = theme["Color Hub 2"]
-		end)
-		
-		-- Clique
-		if options.Callback then
-			button.MouseButton1Click:Connect(function()
-				pcall(options.Callback)
-			end)
-		end
-		
-		return button
-	end
-	
-	-- Função para criar tab SIMPLES E VISÍVEL
-	function window._methods:CreateTab(tabOptions)
-		local options = tabOptions or {}
-		local tabId = #window._tabs + 1
-		
-		-- Botão da tab VISÍVEL
-		local tabButton = CreateElement("TextButton", {
-			Name = "Tab_" .. tabId,
-			Size = UDim2.new(0, 100, 1, 0),
-			Position = UDim2.new(0, (tabId-1)*105, 0, 0),
-			BackgroundColor3 = tabId == 1 and theme["Color Theme"] or Color3.fromRGB(60, 60, 80),
-			Text = options.Name or "TAB " .. tabId,
-			TextColor3 = Color3.new(1, 1, 1),
-			Font = Enum.Font.GothamBold,
-			TextSize = 13,
-			AutoButtonColor = false,
-			Parent = tabButtons
-		})
-		
-		-- Limpar conteúdo anterior (só uma tab visível por vez)
-		if tabId == 1 then
-			tabContent:ClearAllChildren()
-			
-			-- Criar botão de teste automaticamente
-			window._methods:CreateButton({
-				Name = "✅ BOTÃO FUNCIONAL",
-				Callback = function()
-					print("🎯 Botão funcionando!")
-				end
-			})
-		end
-		
-		-- Evento de clique na tab
-		tabButton.MouseButton1Click:Connect(function()
-			-- Atualizar cores
-			for i, tab in pairs(window._tabs) do
-				tab.button.BackgroundColor3 = (i == tabId) and theme["Color Theme"] or Color3.fromRGB(60, 60, 80)
-			end
-			
-			-- Limpar e criar conteúdo
-			tabContent:ClearAllChildren()
-			
-			-- Criar botão de teste
-			window._methods:CreateButton({
-				Name = "🎮 TAB " .. tabId .. " ATIVA",
-				Callback = function()
-					print("Tab " .. tabId .. " funcionando!")
-				end
-			})
-			
-			window._currentTab = tabId
-		end)
-		
-		table.insert(window._tabs, {button = tabButton})
-		
-		return window._methods
-	end
-	
-	-- Métodos adicionais
-	function window._methods:Destroy()
-		screenGui:Destroy()
-	end
-	
-	function window._methods:Show()
-		mainFrame.Visible = true
-	end
-	
-	function window._methods:Hide()
-		mainFrame.Visible = false
-	end
-	
-	-- Criar primeira tab automaticamente
-	window._methods:CreateTab({Name = "COMBATE"})
-	
-	return window._methods
+    options = options or {}
+    local theme = self.Themes[self.CurrentTheme]
+    
+    -- 🎭 SCREEN GUI PRINCIPAL
+    local screenGui = CreateElement("ScreenGui", {
+        Name = "BoladoHub_" .. HttpService:GenerateGUID(false):sub(1, 8),
+        ResetOnSpawn = false,
+        ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+        DisplayOrder = 999
+    })
+    
+    -- Proteção contra múltiplas instâncias
+    if CoreGui:FindFirstChild(screenGui.Name) then
+        CoreGui:FindFirstChild(screenGui.Name):Destroy()
+    end
+    screenGui.Parent = CoreGui
+    
+    -- 🖼️ FRAME PRINCIPAL
+    local mainFrame = CreateElement("Frame", {
+        Name = "MainWindow",
+        Size = UDim2.new(0, 550, 0, 450),
+        Position = UDim2.new(0.5, -275, 0.5, -225),
+        BackgroundColor3 = theme.MainColor,
+        ClipsDescendants = true
+    }, {
+        CreateElement("UICorner", {CornerRadius = UDim.new(0, 12)}),
+        CreateElement("UIStroke", {
+            Color = theme.AccentColor,
+            Thickness = 2,
+            Transparency = 0.2
+        }),
+        CreateElement("UIGradient", {
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, theme.MainColor),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(
+                    theme.MainColor.R * 255 * 0.9,
+                    theme.MainColor.G * 255 * 0.9,
+                    theme.MainColor.B * 255 * 0.9
+                ))
+            }),
+            Rotation = 45
+        })
+    })
+    
+    mainFrame.Parent = screenGui
+    
+    -- 🎯 BARRA DE TÍTULO
+    local titleBar = CreateElement("Frame", {
+        Name = "TitleBar",
+        Size = UDim2.new(1, 0, 0, 45),
+        BackgroundColor3 = theme.AccentColor
+    }, {
+        CreateElement("UICorner", {
+            CornerRadius = UDim.new(0, 12),
+            CornerMask = UDim.new(0, 0b1001)
+        }),
+        CreateElement("UIGradient", {
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, theme.AccentColor),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(
+                    math.min(theme.AccentColor.R * 255 + 20, 255),
+                    math.min(theme.AccentColor.G * 255 + 20, 255),
+                    math.min(theme.AccentColor.B * 255 + 20, 255)
+                ))
+            })
+        })
+    })
+    
+    titleBar.Parent = mainFrame
+    
+    -- 📛 TÍTULO DA JANELA
+    local titleLabel = CreateElement("TextLabel", {
+        Name = "Title",
+        Size = UDim2.new(1, -100, 1, 0),
+        Position = UDim2.new(0, 15, 0, 0),
+        BackgroundTransparency = 1,
+        Text = "🚀 BOLADO HUB v3.0",
+        TextColor3 = Color3.new(1, 1, 1),
+        Font = Enum.Font.GothamBlack,
+        TextSize = 18,
+        TextXAlignment = Enum.TextXAlignment.Left
+    })
+    
+    titleLabel.Parent = titleBar
+    
+    -- 🔘 BOTÕES DA BARRA
+    local buttonContainer = CreateElement("Frame", {
+        Name = "WindowButtons",
+        Size = UDim2.new(0, 80, 1, 0),
+        Position = UDim2.new(1, -85, 0, 0),
+        BackgroundTransparency = 1
+    }, {
+        CreateElement("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            Padding = UDim.new(0, 5),
+            HorizontalAlignment = Enum.HorizontalAlignment.Right
+        })
+    })
+    
+    buttonContainer.Parent = titleBar
+    
+    -- Botão Minimizar
+    local minimizeBtn = CreateElement("TextButton", {
+        Name = "Minimize",
+        Size = UDim2.new(0, 35, 0, 35),
+        BackgroundColor3 = Color3.fromRGB(255, 193, 7),
+        Text = "─",
+        TextColor3 = Color3.new(0, 0, 0),
+        Font = Enum.Font.GothamBold,
+        TextSize = 16,
+        AutoButtonColor = false
+    }, {
+        CreateElement("UICorner", {CornerRadius = UDim.new(0, 6)})
+    })
+    
+    -- Botão Fechar
+    local closeBtn = CreateElement("TextButton", {
+        Name = "Close",
+        Size = UDim2.new(0, 35, 0, 35),
+        BackgroundColor3 = Color3.fromRGB(244, 67, 54),
+        Text = "✕",
+        TextColor3 = Color3.new(1, 1, 1),
+        Font = Enum.Font.GothamBold,
+        TextSize = 16,
+        AutoButtonColor = false
+    }, {
+        CreateElement("UICorner", {CornerRadius = UDim.new(0, 6)})
+    })
+    
+    minimizeBtn.Parent = buttonContainer
+    closeBtn.Parent = buttonContainer
+    
+    -- 🎮 ÁREA DE CONTEÚDO
+    local contentFrame = CreateElement("Frame", {
+        Name = "ContentFrame",
+        Size = UDim2.new(1, -20, 1, -65),
+        Position = UDim2.new(0, 10, 0, 60),
+        BackgroundColor3 = Color3.fromRGB(35, 35, 45),
+        BackgroundTransparency = 0.1
+    }, {
+        CreateElement("UICorner", {CornerRadius = UDim.new(0, 10)}),
+        CreateElement("UIStroke", {
+            Color = Color3.fromRGB(60, 60, 70),
+            Thickness = 1
+        })
+    })
+    
+    contentFrame.Parent = mainFrame
+    
+    -- 📱 CONFIGURAR DRAGGABLE
+    CreateDraggable(mainFrame, titleBar)
+    
+    -- 🎪 SISTEMA DE TABS
+    local tabSystem = TabSystem.new(contentFrame)
+    
+    -- ⚙️ CONFIGURAR EVENTOS DOS BOTÕES
+    -- Minimizar
+    local minimized = false
+    local originalSize = mainFrame.Size
+    
+    minimizeBtn.MouseButton1Click:Connect(function()
+        minimized = not minimized
+        
+        TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad), {
+            Size = minimized and UDim2.new(0, 300, 0, 45) or originalSize
+        }):Play()
+        
+        TweenService:Create(contentFrame, TweenInfo.new(0.2), {
+            BackgroundTransparency = minimized and 1 or 0.1
+        }):Play()
+    end)
+    
+    -- Fechar com animação
+    closeBtn.MouseButton1Click:Connect(function()
+        TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad), {
+            Size = UDim2.new(0, 0, 0, 0),
+            Position = UDim2.new(0.5, 0, 0.5, 0)
+        }):Play()
+        
+        task.wait(0.3)
+        screenGui:Destroy()
+    end)
+    
+    -- 🎭 EFEITOS NOS BOTÕES
+    local function SetupButtonEffects(button, hoverColor, clickColor)
+        button.MouseEnter:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {
+                BackgroundColor3 = hoverColor,
+                Size = UDim2.new(0, 40, 0, 40)
+            }):Play()
+        end)
+        
+        button.MouseLeave:Connect(function()
+            local defaultColor = button.Name == "Close" and Color3.fromRGB(244, 67, 54) 
+                               or Color3.fromRGB(255, 193, 7)
+            TweenService:Create(button, TweenInfo.new(0.2), {
+                BackgroundColor3 = defaultColor,
+                Size = UDim2.new(0, 35, 0, 35)
+            }):Play()
+        end)
+        
+        button.MouseButton1Down:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.1), {
+                BackgroundColor3 = clickColor,
+                Size = UDim2.new(0, 32, 0, 32)
+            }):Play()
+        end)
+        
+        button.MouseButton1Up:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.1), {
+                BackgroundColor3 = hoverColor,
+                Size = UDim2.new(0, 40, 0, 40)
+            }):Play()
+        end)
+    end
+    
+    SetupButtonEffects(minimizeBtn, 
+        Color3.fromRGB(255, 213, 79), 
+        Color3.fromRGB(255, 202, 40))
+    
+    SetupButtonEffects(closeBtn, 
+        Color3.fromRGB(255, 87, 68), 
+        Color3.fromRGB(229, 57, 53))
+    
+    -- 🎪 RETORNAR INTERFACE DA JANELA
+    local windowInterface = {}
+    
+    function windowInterface:AddTab(name, icon)
+        return tabSystem:AddTab(name, icon)
+    end
+    
+    function windowInterface:Destroy()
+        if screenGui then
+            screenGui:Destroy()
+        end
+    end
+    
+    function windowInterface:Hide()
+        mainFrame.Visible = false
+    end
+    
+    function windowInterface:Show()
+        mainFrame.Visible = true
+    end
+    
+    function windowInterface:SetTheme(themeName)
+        if self.Themes[themeName] then
+            self.CurrentTheme = themeName
+            -- Implementar mudança de tema dinâmica
+        end
+    end
+    
+    -- 📱 CRIAR TABS EXEMPLO (AUTO-CRIAÇÃO)
+    task.spawn(function()
+        -- Tab 1: COMBATE
+        local combatTab = windowInterface:AddTab("COMBATE", "⚔️")
+        combatTab:AddLabel({Text = "🔫 CONFIGURAÇÕES DE COMBATE", Size = 18})
+        combatTab:AddButton({
+            Text = "🔥 AUTO-ATAQUE",
+            Callback = function()
+                print("Auto-ataque ativado!")
+            end
+        })
+        combatTab:AddButton({
+            Text = "🎯 AIMBOT",
+            Callback = function()
+                print("Aimbot ativado!")
+            end
+        })
+        
+        -- Tab 2: VISUAIS
+        local visualTab = windowInterface:AddTab("VISUAIS", "👁️")
+        visualTab:AddLabel({Text = "🎨 EFEITOS VISUAIS", Size = 18})
+        visualTab:AddButton({
+            Text = "🌈 ESPECTRO",
+            Callback = function()
+                print("Espectro ativado!")
+            end
+        })
+        
+        -- Tab 3: JOGADOR
+        local playerTab = windowInterface:AddTab("JOGADOR", "👤")
+        playerTab:AddLabel({Text = "🏃 MOVIMENTAÇÃO", Size = 18})
+        playerTab:AddButton({
+            Text = "⚡ VELOCIDADE",
+            Callback = function()
+                print("Velocidade aumentada!")
+            end
+        })
+    end)
+    
+    -- 📊 LOADER ANIMADO
+    local loader = CreateElement("Frame", {
+        Name = "Loader",
+        Size = UDim2.new(1, 0, 0, 3),
+        Position = UDim2.new(0, 0, 1, -3),
+        BackgroundColor3 = theme.AccentColor,
+        BorderSizePixel = 0
+    })
+    
+    loader.Parent = mainFrame
+    
+    -- Animação do loader
+    task.spawn(function()
+        while loader and loader.Parent do
+            for i = 0, 100, 5 do
+                if not loader then break end
+                loader.Size = UDim2.new(0, i/100 * mainFrame.AbsoluteSize.X, 0, 3)
+                task.wait(0.05)
+            end
+            loader.Size = UDim2.new(0, 0, 0, 3)
+            task.wait(0.5)
+        end
+    end)
+    
+    -- Armazenar referência
+    table.insert(self.UIObjects, {
+        Gui = screenGui,
+        Window = windowInterface
+    })
+    
+    print("✅ BoladoHub v3.0 carregado com sucesso!")
+    print("🎮 Tabs criadas: COMBATE, VISUAIS, JOGADOR")
+    print("⚡ Performance otimizada - 0 lag")
+    
+    return windowInterface
 end
 
--- Inicialização
+-- 🚀 INICIALIZADOR
 function BoladoHub:Init()
-	print("🚀 BoladoHub v" .. self.Info.Version .. " - OTIMIZADO SEM LAG")
-	return self
+    print("====================================")
+    print("🚀 BOLADO HUB v" .. self.Info.Version)
+    print("👨‍💻 Autor: " .. self.Info.Author)
+    print("🎨 Temas: Darker, Light")
+    print("⚡ Status: Otimizado para performance")
+    print("====================================")
+    
+    return self
 end
 
-return BoladoHub
+-- 📱 EXEMPLO DE USO
+-- local hub = BoladoHub:Init()
+-- local window = hub:CreateWindow({Title = "Meu Hub"})
+
+return BoladoHub:Init()
