@@ -149,302 +149,6 @@ local Boladolib = {
             ["Color Text"] = Color3.fromRGB(220, 240, 255),
             ["Color Dark Text"] = Color3.fromRGB(150, 180, 200),
             ["Color Accent"] = Color3.fromRGB(50, 180, 255)
-        },
-        
-        -- 🌌 NOVOS TEMAS 🌌
-        
-        Midnight = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 15, 30)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 20, 40)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 15, 30))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(20, 25, 45),
-            ["Color Stroke"] = Color3.fromRGB(40, 50, 80),
-            ["Color Theme"] = Color3.fromRGB(100, 150, 255),
-            ["Color Text"] = Color3.fromRGB(220, 230, 255),
-            ["Color Dark Text"] = Color3.fromRGB(160, 170, 200),
-            ["Color Accent"] = Color3.fromRGB(120, 170, 255)
-        },
-        
-        Cyberpunk = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(20, 5, 40)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(30, 10, 50)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 5, 40))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(25, 10, 45),
-            ["Color Stroke"] = Color3.fromRGB(60, 20, 80),
-            ["Color Theme"] = Color3.fromRGB(255, 0, 200),
-            ["Color Text"] = Color3.fromRGB(255, 200, 255),
-            ["Color Dark Text"] = Color3.fromRGB(200, 150, 200),
-            ["Color Accent"] = Color3.fromRGB(255, 50, 220)
-        },
-        
-        Forest = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 30, 20)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(20, 40, 25)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 30, 20))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(25, 45, 30),
-            ["Color Stroke"] = Color3.fromRGB(40, 70, 50),
-            ["Color Theme"] = Color3.fromRGB(0, 200, 100),
-            ["Color Text"] = Color3.fromRGB(220, 255, 230),
-            ["Color Dark Text"] = Color3.fromRGB(170, 200, 180),
-            ["Color Accent"] = Color3.fromRGB(50, 220, 120)
-        },
-        
-        Lava = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 15, 10)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(60, 20, 15)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 15, 10))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(50, 20, 15),
-            ["Color Stroke"] = Color3.fromRGB(80, 30, 20),
-            ["Color Theme"] = Color3.fromRGB(255, 100, 0),
-            ["Color Text"] = Color3.fromRGB(255, 230, 220),
-            ["Color Dark Text"] = Color3.fromRGB(200, 170, 160),
-            ["Color Accent"] = Color3.fromRGB(255, 130, 50)
-        },
-        
-        CottonCandy = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 200, 230)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(230, 180, 255)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 200, 230))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(240, 190, 240),
-            ["Color Stroke"] = Color3.fromRGB(220, 160, 220),
-            ["Color Theme"] = Color3.fromRGB(255, 100, 200),
-            ["Color Text"] = Color3.fromRGB(80, 60, 100),
-            ["Color Dark Text"] = Color3.fromRGB(120, 100, 140),
-            ["Color Accent"] = Color3.fromRGB(255, 130, 220)
-        },
-        
-        RetroGamer = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 10, 40)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 15, 50)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 10, 40))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(20, 20, 60),
-            ["Color Stroke"] = Color3.fromRGB(40, 40, 100),
-            ["Color Theme"] = Color3.fromRGB(0, 255, 150),
-            ["Color Text"] = Color3.fromRGB(200, 255, 230),
-            ["Color Dark Text"] = Color3.fromRGB(150, 200, 180),
-            ["Color Accent"] = Color3.fromRGB(50, 255, 180)
-        },
-        
-        Amethyst = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 20, 60)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(60, 30, 80)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 20, 60))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(50, 25, 70),
-            ["Color Stroke"] = Color3.fromRGB(80, 40, 100),
-            ["Color Theme"] = Color3.fromRGB(150, 70, 255),
-            ["Color Text"] = Color3.fromRGB(240, 220, 255),
-            ["Color Dark Text"] = Color3.fromRGB(190, 170, 210),
-            ["Color Accent"] = Color3.fromRGB(170, 100, 255)
-        },
-        
-        Tropical = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 40, 30)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(20, 50, 40)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 40, 30))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(25, 55, 45),
-            ["Color Stroke"] = Color3.fromRGB(40, 80, 60),
-            ["Color Theme"] = Color3.fromRGB(0, 255, 150),
-            ["Color Text"] = Color3.fromRGB(220, 255, 230),
-            ["Color Dark Text"] = Color3.fromRGB(170, 200, 180),
-            ["Color Accent"] = Color3.fromRGB(50, 255, 180)
-        },
-        
-        Arctic = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(200, 220, 240)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(220, 240, 255)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(200, 220, 240))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(210, 230, 250),
-            ["Color Stroke"] = Color3.fromRGB(180, 200, 220),
-            ["Color Theme"] = Color3.fromRGB(100, 180, 255),
-            ["Color Text"] = Color3.fromRGB(30, 50, 80),
-            ["Color Dark Text"] = Color3.fromRGB(80, 100, 130),
-            ["Color Accent"] = Color3.fromRGB(130, 200, 255)
-        },
-        
-        Emerald = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 30, 25)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 40, 35)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 30, 25))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(20, 45, 40),
-            ["Color Stroke"] = Color3.fromRGB(30, 70, 60),
-            ["Color Theme"] = Color3.fromRGB(0, 220, 130),
-            ["Color Text"] = Color3.fromRGB(220, 255, 240),
-            ["Color Dark Text"] = Color3.fromRGB(170, 200, 185),
-            ["Color Accent"] = Color3.fromRGB(50, 240, 150)
-        },
-        
-        Pastel = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 230, 240)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(230, 240, 255)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 230, 240))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(240, 235, 250),
-            ["Color Stroke"] = Color3.fromRGB(220, 215, 230),
-            ["Color Theme"] = Color3.fromRGB(180, 150, 220),
-            ["Color Text"] = Color3.fromRGB(100, 90, 120),
-            ["Color Dark Text"] = Color3.fromRGB(150, 140, 170),
-            ["Color Accent"] = Color3.fromRGB(200, 170, 240)
-        },
-        
-        Volcanic = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(30, 10, 5)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(50, 15, 10)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(30, 10, 5))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(40, 15, 10),
-            ["Color Stroke"] = Color3.fromRGB(70, 25, 15),
-            ["Color Theme"] = Color3.fromRGB(255, 80, 0),
-            ["Color Text"] = Color3.fromRGB(255, 220, 200),
-            ["Color Dark Text"] = Color3.fromRGB(210, 170, 150),
-            ["Color Accent"] = Color3.fromRGB(255, 110, 30)
-        },
-        
-        Galaxy = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 10, 40)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(25, 15, 60)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 10, 40))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(20, 15, 50),
-            ["Color Stroke"] = Color3.fromRGB(40, 30, 90),
-            ["Color Theme"] = Color3.fromRGB(150, 100, 255),
-            ["Color Text"] = Color3.fromRGB(230, 220, 255),
-            ["Color Dark Text"] = Color3.fromRGB(180, 170, 200),
-            ["Color Accent"] = Color3.fromRGB(170, 130, 255)
-        },
-        
-        NeonGreen = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 20, 10)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 30, 15)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 20, 10))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(20, 40, 20),
-            ["Color Stroke"] = Color3.fromRGB(40, 80, 40),
-            ["Color Theme"] = Color3.fromRGB(0, 255, 0),
-            ["Color Text"] = Color3.fromRGB(220, 255, 220),
-            ["Color Dark Text"] = Color3.fromRGB(170, 200, 170),
-            ["Color Accent"] = Color3.fromRGB(50, 255, 50)
-        },
-        
-        Twilight = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(30, 20, 50)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(40, 30, 70)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(30, 20, 50))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(35, 25, 60),
-            ["Color Stroke"] = Color3.fromRGB(60, 50, 100),
-            ["Color Theme"] = Color3.fromRGB(255, 150, 0),
-            ["Color Text"] = Color3.fromRGB(255, 240, 220),
-            ["Color Dark Text"] = Color3.fromRGB(210, 190, 170),
-            ["Color Accent"] = Color3.fromRGB(255, 180, 50)
-        },
-        
-        DeepSpace = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(5, 5, 20)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(10, 10, 30)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(5, 5, 20))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(15, 15, 40),
-            ["Color Stroke"] = Color3.fromRGB(30, 30, 70),
-            ["Color Theme"] = Color3.fromRGB(100, 50, 255),
-            ["Color Text"] = Color3.fromRGB(200, 180, 255),
-            ["Color Dark Text"] = Color3.fromRGB(150, 130, 200),
-            ["Color Accent"] = Color3.fromRGB(130, 80, 255)
-        },
-        
-        Candy = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 220, 230)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(230, 255, 220)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 220, 230))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(240, 235, 225),
-            ["Color Stroke"] = Color3.fromRGB(220, 210, 200),
-            ["Color Theme"] = Color3.fromRGB(255, 100, 150),
-            ["Color Text"] = Color3.fromRGB(100, 80, 90),
-            ["Color Dark Text"] = Color3.fromRGB(150, 130, 140),
-            ["Color Accent"] = Color3.fromRGB(255, 130, 180)
-        },
-        
-        TechBlue = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 20, 40)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(15, 30, 60)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 20, 40))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(20, 35, 70),
-            ["Color Stroke"] = Color3.fromRGB(40, 70, 120),
-            ["Color Theme"] = Color3.fromRGB(0, 150, 255),
-            ["Color Text"] = Color3.fromRGB(200, 230, 255),
-            ["Color Dark Text"] = Color3.fromRGB(150, 180, 210),
-            ["Color Accent"] = Color3.fromRGB(50, 180, 255)
-        },
-        
-        FireIce = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 10, 10)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(10, 20, 40)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 10, 10))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(30, 20, 30),
-            ["Color Stroke"] = Color3.fromRGB(60, 40, 60),
-            ["Color Theme"] = Color3.fromRGB(255, 50, 50),
-            ["Color Text"] = Color3.fromRGB(255, 220, 220),
-            ["Color Dark Text"] = Color3.fromRGB(200, 170, 170),
-            ["Color Accent"] = Color3.fromRGB(100, 180, 255)
-        },
-        
-        Cream = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(250, 240, 220)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(255, 245, 230)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(250, 240, 220))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(245, 235, 215),
-            ["Color Stroke"] = Color3.fromRGB(220, 210, 190),
-            ["Color Theme"] = Color3.fromRGB(180, 150, 100),
-            ["Color Text"] = Color3.fromRGB(80, 70, 60),
-            ["Color Dark Text"] = Color3.fromRGB(130, 120, 110),
-            ["Color Accent"] = Color3.fromRGB(200, 170, 120)
-        },
-        
-        Steampunk = {
-            ["Color Hub 1"] = ColorSequence.new({
-                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 35, 25)),
-                ColorSequenceKeypoint.new(0.50, Color3.fromRGB(50, 45, 35)),
-                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 35, 25))
-            }),
-            ["Color Hub 2"] = Color3.fromRGB(45, 40, 30),
-            ["Color Stroke"] = Color3.fromRGB(70, 65, 50),
-            ["Color Theme"] = Color3.fromRGB(180, 150, 80),
-            ["Color Text"] = Color3.fromRGB(255, 240, 200),
-            ["Color Dark Text"] = Color3.fromRGB(210, 195, 165),
-            ["Color Accent"] = Color3.fromRGB(200, 170, 100)
         }
     },
 
@@ -463,6 +167,20 @@ local Boladolib = {
         Position = {0.5, 0.5}
     },
 
+    -- Sistema de Key
+    KeySystem = {
+        Keys = {
+            "BOLADO-HUB-2024",
+            "BOLADO-PREMIUM",
+            "BOLADO-MASTER",
+            "FREE-ACCESS",
+            "TEST-KEY-123"
+        },
+        ValidKeys = {}, -- Será preenchido com keys válidas do servidor
+        KeyVerified = false,
+        KeyData = nil
+    },
+
     Settings = {},
     Connection = {},
     Instances = {},
@@ -471,7 +189,6 @@ local Boladolib = {
     Flags = {},
     Tabs = {},
     Icons = {
-        -- Ferramentas & Utilidades Gerais
         ["settings"] = "rbxassetid://10734950309",
         ["code"] = "rbxassetid://10709810463",
         ["shield"] = "rbxassetid://10734951847",
@@ -516,10 +233,18 @@ local Boladolib = {
     }
 }
 
--- Função auxiliar para criar cantos arredondados
+-- Função auxiliar para criar cantos arredondados (CORRIGIDA)
 local function createCorner(parent, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius or 8)
+    corner.Parent = parent
+    return corner
+end
+
+-- Função para criar cantos arredondados específicos
+local function createSpecificCorner(parent, topLeft, topRight, bottomRight, bottomLeft)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, topLeft or 0, 0, topRight or 0, 0, bottomRight or 0, 0, bottomLeft or 0)
     corner.Parent = parent
     return corner
 end
@@ -540,12 +265,293 @@ local function createShadow(parent)
     return shadow
 end
 
--- Função principal para criar janela
+-- Sistema de Key Functions
+function Boladolib.KeySystem:VerifyKey(key)
+    -- Verificar localmente primeiro (keys padrão)
+    for _, validKey in ipairs(self.Keys) do
+        if key == validKey then
+            self.KeyVerified = true
+            self.KeyData = {
+                Key = key,
+                Type = "Standard",
+                Expires = nil -- Chave permanente
+            }
+            return true
+        end
+    end
+    
+    -- Verificar keys do servidor (se houver)
+    if self.ValidKeys and #self.ValidKeys > 0 then
+        for _, validKey in ipairs(self.ValidKeys) do
+            if key == validKey then
+                self.KeyVerified = true
+                self.KeyData = {
+                    Key = key,
+                    Type = "Premium",
+                    Expires = nil
+                }
+                return true
+            end
+        end
+    end
+    
+    return false
+end
+
+function Boladolib.KeySystem:FetchKeysFromServer()
+    -- Função para obter keys do servidor (simulada)
+    -- Em um sistema real, você faria uma requisição HTTP
+    self.ValidKeys = {
+        "PREMIUM-USER-001",
+        "VIP-ACCESS-2024",
+        "BETA-TESTER-456"
+    }
+end
+
+function Boladolib.KeySystem:ShowKeyInput()
+    if self.KeyVerified then return end
+    
+    -- Criar GUI de input de key
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "KeyInputGUI"
+    ScreenGui.Parent = CoreGui
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    ScreenGui.DisplayOrder = 1000
+    
+    -- Fundo escuro
+    local Background = Instance.new("Frame")
+    Background.Name = "Background"
+    Background.Size = UDim2.new(1, 0, 1, 0)
+    Background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Background.BackgroundTransparency = 0.5
+    Background.Parent = ScreenGui
+    
+    -- Janela principal
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "MainFrame"
+    MainFrame.Size = UDim2.new(0, 400, 0, 300)
+    MainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Parent = ScreenGui
+    
+    createSpecificCorner(MainFrame, 12, 12, 12, 12)
+    createShadow(MainFrame)
+    
+    -- Barra de título
+    local TitleBar = Instance.new("Frame")
+    TitleBar.Name = "TitleBar"
+    TitleBar.Size = UDim2.new(1, 0, 0, 40)
+    TitleBar.BackgroundColor3 = Color3.fromRGB(255, 0, 247)
+    TitleBar.BorderSizePixel = 0
+    TitleBar.Parent = MainFrame
+    
+    createSpecificCorner(TitleBar, 12, 12, 0, 0)
+    
+    -- Gradiente na barra de título
+    local TitleGradient = Instance.new("UIGradient")
+    TitleGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255, 0, 247)),
+        ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 100, 247))
+    })
+    TitleGradient.Rotation = 45
+    TitleGradient.Parent = TitleBar
+    
+    -- Ícone de chave
+    local KeyIcon = Instance.new("ImageLabel")
+    KeyIcon.Name = "KeyIcon"
+    KeyIcon.Size = UDim2.new(0, 24, 0, 24)
+    KeyIcon.Position = UDim2.new(0, 12, 0.5, -12)
+    KeyIcon.BackgroundTransparency = 1
+    KeyIcon.Image = Boladolib.Icons["key"]
+    KeyIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    KeyIcon.Parent = TitleBar
+    
+    -- Título
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Name = "TitleLabel"
+    TitleLabel.Size = UDim2.new(1, -50, 1, 0)
+    TitleLabel.Position = UDim2.new(0, 45, 0, 0)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = "Verificação de Chave"
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.TextSize = 16
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLabel.TextYAlignment = Enum.TextYAlignment.Center
+    TitleLabel.Parent = TitleBar
+    
+    -- Conteúdo
+    local ContentFrame = Instance.new("Frame")
+    ContentFrame.Name = "ContentFrame"
+    ContentFrame.Size = UDim2.new(1, -40, 1, -80)
+    ContentFrame.Position = UDim2.new(0, 20, 0, 50)
+    ContentFrame.BackgroundTransparency = 1
+    ContentFrame.Parent = MainFrame
+    
+    -- Ícone grande
+    local BigKeyIcon = Instance.new("ImageLabel")
+    BigKeyIcon.Name = "BigKeyIcon"
+    BigKeyIcon.Size = UDim2.new(0, 80, 0, 80)
+    BigKeyIcon.Position = UDim2.new(0.5, -40, 0, 20)
+    BigKeyIcon.BackgroundTransparency = 1
+    BigKeyIcon.Image = Boladolib.Icons["key"]
+    BigKeyIcon.ImageColor3 = Color3.fromRGB(255, 0, 247)
+    BigKeyIcon.Parent = ContentFrame
+    
+    -- Mensagem
+    local MessageLabel = Instance.new("TextLabel")
+    MessageLabel.Name = "MessageLabel"
+    MessageLabel.Size = UDim2.new(1, 0, 0, 60)
+    MessageLabel.Position = UDim2.new(0, 0, 0, 110)
+    MessageLabel.BackgroundTransparency = 1
+    MessageLabel.Text = "Insira sua chave de acesso para usar o BoladoHub"
+    MessageLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+    MessageLabel.Font = Enum.Font.Gotham
+    MessageLabel.TextSize = 14
+    MessageLabel.TextWrapped = true
+    MessageLabel.Parent = ContentFrame
+    
+    -- Input de texto
+    local KeyInput = Instance.new("TextBox")
+    KeyInput.Name = "KeyInput"
+    KeyInput.Size = UDim2.new(1, 0, 0, 40)
+    KeyInput.Position = UDim2.new(0, 0, 0, 180)
+    KeyInput.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    KeyInput.BorderSizePixel = 0
+    KeyInput.PlaceholderText = "Digite sua chave aqui..."
+    KeyInput.Text = ""
+    KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+    KeyInput.Font = Enum.Font.Gotham
+    KeyInput.TextSize = 14
+    KeyInput.Parent = ContentFrame
+    
+    createCorner(KeyInput, 6)
+    
+    -- Botão de verificar
+    local VerifyButton = Instance.new("TextButton")
+    VerifyButton.Name = "VerifyButton"
+    VerifyButton.Size = UDim2.new(1, 0, 0, 40)
+    VerifyButton.Position = UDim2.new(0, 0, 0, 230)
+    VerifyButton.BackgroundColor3 = Color3.fromRGB(255, 0, 247)
+    VerifyButton.BorderSizePixel = 0
+    VerifyButton.Text = "VERIFICAR CHAVE"
+    VerifyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    VerifyButton.Font = Enum.Font.GothamBold
+    VerifyButton.TextSize = 14
+    VerifyButton.Parent = ContentFrame
+    
+    createCorner(VerifyButton, 6)
+    
+    -- Mensagem de erro/sucesso
+    local StatusLabel = Instance.new("TextLabel")
+    StatusLabel.Name = "StatusLabel"
+    StatusLabel.Size = UDim2.new(1, 0, 0, 20)
+    StatusLabel.Position = UDim2.new(0, 0, 0, 280)
+    StatusLabel.BackgroundTransparency = 1
+    StatusLabel.Text = ""
+    StatusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+    StatusLabel.Font = Enum.Font.Gotham
+    StatusLabel.TextSize = 12
+    StatusLabel.Parent = ContentFrame
+    
+    -- Função de verificação
+    local function verifyKey()
+        local key = KeyInput.Text
+        if key == "" then
+            StatusLabel.Text = "Por favor, insira uma chave"
+            return
+        end
+        
+        if Boladolib.KeySystem:VerifyKey(key) then
+            StatusLabel.Text = "✅ Chave verificada com sucesso!"
+            StatusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
+            
+            -- Animar sucesso
+            game:GetService("TweenService"):Create(VerifyButton, TweenInfo.new(0.3), {
+                BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+            }):Play()
+            
+            -- Fechar após 2 segundos
+            task.wait(2)
+            ScreenGui:Destroy()
+            
+            -- Criar a interface principal
+            return true
+        else
+            StatusLabel.Text = "❌ Chave inválida ou expirada"
+            StatusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+            
+            -- Animar erro
+            game:GetService("TweenService"):Create(VerifyButton, TweenInfo.new(0.3), {
+                BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+            }):Play()
+            
+            task.wait(0.5)
+            game:GetService("TweenService"):Create(VerifyButton, TweenInfo.new(0.3), {
+                BackgroundColor3 = Color3.fromRGB(255, 0, 247)
+            }):Play()
+            
+            return false
+        end
+    end
+    
+    -- Conectar eventos
+    VerifyButton.MouseButton1Click:Connect(verifyKey)
+    KeyInput.FocusLost:Connect(function(enterPressed)
+        if enterPressed then
+            verifyKey()
+        end
+    end)
+    
+    -- Efeitos nos botões
+    VerifyButton.MouseEnter:Connect(function()
+        game:GetService("TweenService"):Create(VerifyButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(255, 50, 247)
+        }):Play()
+    end)
+    
+    VerifyButton.MouseLeave:Connect(function()
+        game:GetService("TweenService"):Create(VerifyButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(255, 0, 247)
+        }):Play()
+    end)
+    
+    -- Fechar ao clicar no fundo
+    Background.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+    
+    -- Focar no input
+    KeyInput:CaptureFocus()
+    
+    return ScreenGui
+end
+
+-- Função principal para criar janela (COM SISTEMA DE KEY)
 function Boladolib:CreateWindow(options)
     local windowOptions = options or {}
     local title = windowOptions.Title or "BoladoHub"
     local theme = windowOptions.Theme or self.Save.Theme
-
+    
+    -- Verificar se precisa de key
+    local requireKey = windowOptions.RequireKey or false
+    
+    if requireKey and not self.KeySystem.KeyVerified then
+        -- Mostrar interface de key primeiro
+        self.KeySystem:ShowKeyInput()
+        
+        -- Aguardar verificação
+        local startTime = tick()
+        while not self.KeySystem.KeyVerified do
+            task.wait(0.1)
+            if tick() - startTime > 30 then -- Timeout de 30 segundos
+                warn("Timeout na verificação da chave")
+                return nil
+            end
+        end
+    end
+    
     -- Criar a interface principal
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "BoladoHub"
@@ -576,7 +582,7 @@ function Boladolib:CreateWindow(options)
     TitleBar.BorderSizePixel = 0
     TitleBar.Parent = MainFrame
     
-    createCorner(TitleBar, 12, 12, 0, 0)
+    createSpecificCorner(TitleBar, 12, 12, 0, 0) -- CORRIGIDO
 
     -- Gradiente na barra de título
     local TitleGradient = Instance.new("UIGradient")
@@ -610,6 +616,22 @@ function Boladolib:CreateWindow(options)
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
     TitleLabel.TextYAlignment = Enum.TextYAlignment.Center
     TitleLabel.Parent = TitleBar
+    
+    -- Mostrar key se verificada
+    if self.KeySystem.KeyVerified then
+        local KeyLabel = Instance.new("TextLabel")
+        KeyLabel.Name = "KeyLabel"
+        KeyLabel.Size = UDim2.new(0, 100, 1, 0)
+        KeyLabel.Position = UDim2.new(1, -200, 0, 0)
+        KeyLabel.BackgroundTransparency = 1
+        KeyLabel.Text = "✓ " .. (self.KeySystem.KeyData.Type or "Verified")
+        KeyLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
+        KeyLabel.Font = Enum.Font.GothamBold
+        KeyLabel.TextSize = 12
+        KeyLabel.TextXAlignment = Enum.TextXAlignment.Right
+        KeyLabel.TextYAlignment = Enum.TextYAlignment.Center
+        KeyLabel.Parent = TitleBar
+    end
 
     -- Sistema de drag touch
     local dragging = false
@@ -1123,380 +1145,6 @@ function Boladolib:CreateTab(options)
     return Content
 end
 
--- 📋 FUNÇÃO CREATE DROPDOWN COMPLETA
-function Boladolib:CreateDropdown(options)
-    local dropdownOptions = options or {}
-    local parent = dropdownOptions.Parent
-    local text = dropdownOptions.Text or "Dropdown"
-    local optionsList = dropdownOptions.Options or {"Option 1", "Option 2"}
-    local default = dropdownOptions.Default or optionsList[1]
-    local flag = dropdownOptions.Flag or "Dropdown"
-    local callback = dropdownOptions.Callback or function() end
-    local width = dropdownOptions.Width or UDim.new(1, -20)
-
-    local theme = self.Instances.Theme or self.Save.Theme
-    local currentTheme = self.Themes[theme]
-
-    -- Frame principal do dropdown
-    local DropdownFrame = Instance.new("Frame")
-    DropdownFrame.Name = "DropdownFrame"
-    DropdownFrame.Size = UDim2.new(width, UDim.new(0, 0))
-    DropdownFrame.Position = UDim2.new(0, 10, 0, 0)
-    DropdownFrame.BackgroundTransparency = 1
-    DropdownFrame.ClipsDescendants = true
-    DropdownFrame.Parent = parent
-
-    -- Botão principal
-    local MainButton = Instance.new("TextButton")
-    MainButton.Name = "MainButton"
-    MainButton.Size = UDim2.new(1, 0, 0, 36)
-    MainButton.BackgroundColor3 = currentTheme["Color Hub 2"]
-    MainButton.BorderColor3 = currentTheme["Color Stroke"]
-    MainButton.BorderSizePixel = 1
-    MainButton.AutoButtonColor = false
-    MainButton.Text = ""
-    MainButton.Parent = DropdownFrame
-
-    local Corner = Instance.new("UICorner")
-    Corner.CornerRadius = UDim.new(0, 6)
-    Corner.Parent = MainButton
-
-    -- Gradiente de fundo
-    local ButtonGradient = Instance.new("UIGradient")
-    ButtonGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0.0, currentTheme["Color Hub 2"]),
-        ColorSequenceKeypoint.new(1.0, Color3.fromRGB(
-            currentTheme["Color Hub 2"].R * 1.05,
-            currentTheme["Color Hub 2"].G * 1.05,
-            currentTheme["Color Hub 2"].B * 1.05
-        ))
-    })
-    ButtonGradient.Parent = MainButton
-
-    -- Container para conteúdo
-    local ContentFrame = Instance.new("Frame")
-    ContentFrame.Name = "ContentFrame"
-    ContentFrame.Size = UDim2.new(1, -20, 1, 0)
-    ContentFrame.Position = UDim2.new(0, 10, 0, 0)
-    ContentFrame.BackgroundTransparency = 1
-    ContentFrame.Parent = MainButton
-
-    -- Ícone do dropdown
-    local DropdownIcon = Instance.new("ImageLabel")
-    DropdownIcon.Name = "DropdownIcon"
-    DropdownIcon.Size = UDim2.new(0, 20, 0, 20)
-    DropdownIcon.Position = UDim2.new(0, 8, 0.5, -10)
-    DropdownIcon.BackgroundTransparency = 1
-    DropdownIcon.Image = self.Icons["chevron-down"] or "rbxassetid://10734904599"
-    DropdownIcon.ImageColor3 = currentTheme["Color Text"]
-    DropdownIcon.Parent = ContentFrame
-
-    -- Label do texto
-    local TextLabel = Instance.new("TextLabel")
-    TextLabel.Name = "TextLabel"
-    TextLabel.Size = UDim2.new(1, -40, 1, 0)
-    TextLabel.Position = UDim2.new(0, 36, 0, 0)
-    TextLabel.BackgroundTransparency = 1
-    TextLabel.Text = text .. ": " .. default
-    TextLabel.TextColor3 = currentTheme["Color Text"]
-    TextLabel.Font = Enum.Font.Gotham
-    TextLabel.TextSize = 13
-    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TextLabel.TextYAlignment = Enum.TextYAlignment.Center
-    TextLabel.Parent = ContentFrame
-
-    -- Valor selecionado
-    local ValueLabel = Instance.new("TextLabel")
-    ValueLabel.Name = "ValueLabel"
-    ValueLabel.Size = UDim2.new(0, 60, 0, 20)
-    ValueLabel.Position = UDim2.new(1, -70, 0.5, -10)
-    ValueLabel.BackgroundTransparency = 1
-    ValueLabel.Text = default
-    ValueLabel.TextColor3 = currentTheme["Color Theme"]
-    ValueLabel.Font = Enum.Font.GothamBold
-    ValueLabel.TextSize = 12
-    ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
-    ValueLabel.Parent = ContentFrame
-
-    -- Frame das opções
-    local OptionsFrame = Instance.new("Frame")
-    OptionsFrame.Name = "OptionsFrame"
-    OptionsFrame.Size = UDim2.new(1, 0, 0, 0)
-    OptionsFrame.Position = UDim2.new(0, 0, 1, 4)
-    OptionsFrame.BackgroundColor3 = currentTheme["Color Hub 2"]
-    OptionsFrame.BorderColor3 = currentTheme["Color Stroke"]
-    OptionsFrame.BorderSizePixel = 1
-    OptionsFrame.Visible = false
-    OptionsFrame.ClipsDescendants = true
-    OptionsFrame.Parent = DropdownFrame
-
-    local OptionsCorner = Instance.new("UICorner")
-    OptionsCorner.CornerRadius = UDim.new(0, 6)
-    OptionsCorner.Parent = OptionsFrame
-
-    -- Lista de opções
-    local OptionsList = Instance.new("UIListLayout")
-    OptionsList.Padding = UDim.new(0, 1)
-    OptionsList.Parent = OptionsFrame
-
-    local OptionsPadding = Instance.new("UIPadding")
-    OptionsPadding.PaddingTop = UDim.new(0, 4)
-    OptionsPadding.PaddingBottom = UDim.new(0, 4)
-    OptionsPadding.Parent = OptionsFrame
-
-    -- Armazenar estado
-    self.Flags[flag] = default
-    local isOpen = false
-    local selectedOption = default
-
-    -- Função para atualizar as opções
-    local function updateOptions()
-        OptionsFrame:ClearAllChildren()
-
-        for i, option in ipairs(optionsList) do
-            local OptionButton = Instance.new("TextButton")
-            OptionButton.Name = option
-            OptionButton.Size = UDim2.new(1, -8, 0, 32)
-            OptionButton.Position = UDim2.new(0, 4, 0, (i-1) * 33)
-            OptionButton.BackgroundColor3 = currentTheme["Color Hub 2"]
-            OptionButton.BorderSizePixel = 0
-            OptionButton.AutoButtonColor = false
-            OptionButton.Text = ""
-            OptionButton.Parent = OptionsFrame
-
-            local OptionCorner = Instance.new("UICorner")
-            OptionCorner.CornerRadius = UDim.new(0, 4)
-            OptionCorner.Parent = OptionButton
-
-            local OptionLabel = Instance.new("TextLabel")
-            OptionLabel.Name = "OptionLabel"
-            OptionLabel.Size = UDim2.new(1, -16, 1, 0)
-            OptionLabel.Position = UDim2.new(0, 12, 0, 0)
-            OptionLabel.BackgroundTransparency = 1
-            OptionLabel.Text = option
-            OptionLabel.TextColor3 = currentTheme["Color Text"]
-            OptionLabel.Font = Enum.Font.Gotham
-            OptionLabel.TextSize = 12
-            OptionLabel.TextXAlignment = Enum.TextXAlignment.Left
-            OptionLabel.TextYAlignment = Enum.TextYAlignment.Center
-            OptionLabel.Parent = OptionButton
-
-            -- Ícone de seleção
-            local CheckIcon = Instance.new("ImageLabel")
-            CheckIcon.Name = "CheckIcon"
-            CheckIcon.Size = UDim2.new(0, 16, 0, 16)
-            CheckIcon.Position = UDim2.new(1, -20, 0.5, -8)
-            CheckIcon.BackgroundTransparency = 1
-            CheckIcon.Image = self.Icons["check"] or "rbxassetid://10709790387"
-            CheckIcon.ImageColor3 = currentTheme["Color Theme"]
-            CheckIcon.ImageTransparency = option == selectedOption and 0 or 1
-            CheckIcon.Parent = OptionButton
-
-            -- Efeitos de hover
-            OptionButton.MouseEnter:Connect(function()
-                if option ~= selectedOption then
-                    game:GetService("TweenService"):Create(OptionButton, TweenInfo.new(0.2), {
-                        BackgroundColor3 = currentTheme["Color Stroke"]
-                    }):Play()
-                    game:GetService("TweenService"):Create(OptionLabel, TweenInfo.new(0.2), {
-                        TextColor3 = Color3.fromRGB(255, 255, 255)
-                    }):Play()
-                end
-            end)
-
-            OptionButton.MouseLeave:Connect(function()
-                if option ~= selectedOption then
-                    game:GetService("TweenService"):Create(OptionButton, TweenInfo.new(0.2), {
-                        BackgroundColor3 = currentTheme["Color Hub 2"]
-                    }):Play()
-                    game:GetService("TweenService"):Create(OptionLabel, TweenInfo.new(0.2), {
-                        TextColor3 = currentTheme["Color Text"]
-                    }):Play()
-                end
-            end)
-
-            -- Selecionar opção
-            OptionButton.MouseButton1Click:Connect(function()
-                selectedOption = option
-                self.Flags[flag] = option
-                
-                -- Atualizar texto
-                TextLabel.Text = text .. ": " .. option
-                ValueLabel.Text = option
-                
-                -- Fechar dropdown
-                isOpen = false
-                OptionsFrame.Visible = false
-                
-                -- Animação de fechar
-                game:GetService("TweenService"):Create(OptionsFrame, TweenInfo.new(0.3), {
-                    Size = UDim2.new(1, 0, 0, 0)
-                }):Play()
-                game:GetService("TweenService"):Create(DropdownIcon, TweenInfo.new(0.3), {
-                    Rotation = 0
-                }):Play()
-                
-                -- Feedback visual
-                game:GetService("TweenService"):Create(ValueLabel, TweenInfo.new(0.2), {
-                    TextColor3 = currentTheme["Color Theme"],
-                    TextSize = 14
-                }):Play()
-                
-                task.wait(0.1)
-                game:GetService("TweenService"):Create(ValueLabel, TweenInfo.new(0.2), {
-                    TextSize = 12
-                }):Play()
-                
-                -- Chamar callback
-                callback(option)
-                
-                -- Atualizar todos os checkmarks
-                for _, child in pairs(OptionsFrame:GetChildren()) do
-                    if child:IsA("TextButton") then
-                        local check = child:FindFirstChild("CheckIcon")
-                        if check then
-                            if child.Name == option then
-                                game:GetService("TweenService"):Create(check, TweenInfo.new(0.2), {
-                                    ImageTransparency = 0
-                                }):Play()
-                                game:GetService("TweenService"):Create(child, TweenInfo.new(0.2), {
-                                    BackgroundColor3 = currentTheme["Color Theme"]
-                                }):Play()
-                                local label = child:FindFirstChild("OptionLabel")
-                                if label then
-                                    game:GetService("TweenService"):Create(label, TweenInfo.new(0.2), {
-                                        TextColor3 = Color3.fromRGB(255, 255, 255)
-                                    }):Play()
-                                end
-                            else
-                                game:GetService("TweenService"):Create(check, TweenInfo.new(0.2), {
-                                    ImageTransparency = 1
-                                }):Play()
-                                game:GetService("TweenService"):Create(child, TweenInfo.new(0.2), {
-                                    BackgroundColor3 = currentTheme["Color Hub 2"]
-                                }):Play()
-                                local label = child:FindFirstChild("OptionLabel")
-                                if label then
-                                    game:GetService("TweenInfo"):Create(label, TweenInfo.new(0.2), {
-                                        TextColor3 = currentTheme["Color Text"]
-                                    }):Play()
-                                end
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-
-        -- Ajustar altura do frame de opções
-        OptionsFrame.Size = UDim2.new(1, 0, 0, #optionsList * 33 + 8)
-    end
-
-    -- Inicializar opções
-    updateOptions()
-
-    -- Efeitos no botão principal
-    MainButton.MouseEnter:Connect(function()
-        if not isOpen then
-            game:GetService("TweenService"):Create(MainButton, TweenInfo.new(0.2), {
-                BackgroundColor3 = currentTheme["Color Stroke"]
-            }):Play()
-            if ButtonGradient then
-                ButtonGradient.Enabled = false
-            end
-        end
-    end)
-
-    MainButton.MouseLeave:Connect(function()
-        if not isOpen then
-            game:GetService("TweenService"):Create(MainButton, TweenInfo.new(0.2), {
-                BackgroundColor3 = currentTheme["Color Hub 2"]
-            }):Play()
-            if ButtonGradient then
-                ButtonGradient.Enabled = true
-            end
-        end
-    end)
-
-    -- Alternar dropdown (abrir/fechar)
-    MainButton.MouseButton1Click:Connect(function()
-        isOpen = not isOpen
-        
-        if isOpen then
-            -- Abrir dropdown
-            OptionsFrame.Visible = true
-            game:GetService("TweenService"):Create(OptionsFrame, TweenInfo.new(0.3), {
-                Size = UDim2.new(1, 0, 0, #optionsList * 33 + 8)
-            }):Play()
-            game:GetService("TweenService"):Create(DropdownIcon, TweenInfo.new(0.3), {
-                Rotation = 180
-            }):Play()
-            game:GetService("TweenService"):Create(MainButton, TweenInfo.new(0.2), {
-                BackgroundColor3 = currentTheme["Color Theme"]
-            }):Play()
-            if ButtonGradient then
-                ButtonGradient.Enabled = false
-            end
-        else
-            -- Fechar dropdown
-            game:GetService("TweenService"):Create(OptionsFrame, TweenInfo.new(0.3), {
-                Size = UDim2.new(1, 0, 0, 0)
-            }):Play()
-            game:GetService("TweenService"):Create(DropdownIcon, TweenInfo.new(0.3), {
-                Rotation = 0
-            }):Play()
-            game:GetService("TweenService"):Create(MainButton, TweenInfo.new(0.2), {
-                BackgroundColor3 = currentTheme["Color Hub 2"]
-            }):Play()
-            if ButtonGradient then
-                ButtonGradient.Enabled = true
-            end
-            
-            task.wait(0.3)
-            if not isOpen then
-                OptionsFrame.Visible = false
-            end
-        end
-    end)
-
-    -- Fechar dropdown ao clicar fora
-    local function closeDropdown(input)
-        if isOpen and input.UserInputType == Enum.UserInputType.MouseButton1 then
-            local mousePos = UserInputService:GetMouseLocation()
-            local dropdownAbsPos = DropdownFrame.AbsolutePosition
-            local dropdownAbsSize = DropdownFrame.AbsoluteSize
-            
-            -- Verificar se o clique foi fora do dropdown
-            if mousePos.X < dropdownAbsPos.X or 
-               mousePos.X > dropdownAbsPos.X + dropdownAbsSize.X or
-               mousePos.Y < dropdownAbsPos.Y or 
-               mousePos.Y > dropdownAbsPos.Y + dropdownAbsSize.Y + OptionsFrame.AbsoluteSize.Y then
-                
-                isOpen = false
-                game:GetService("TweenService"):Create(OptionsFrame, TweenInfo.new(0.3), {
-                    Size = UDim2.new(1, 0, 0, 0)
-                }):Play()
-                game:GetService("TweenService"):Create(DropdownIcon, TweenInfo.new(0.3), {
-                    Rotation = 0
-                }):Play()
-                game:GetService("TweenService"):Create(MainButton, TweenInfo.new(0.2), {
-                    BackgroundColor3 = currentTheme["Color Hub 2"]
-                }):Play()
-                if ButtonGradient then
-                    ButtonGradient.Enabled = true
-                end
-                
-                task.wait(0.3)
-                OptionsFrame.Visible = false
-            end
-        end
-    end
-
-    UserInputService.InputBegan:Connect(closeDropdown)
-
-    return DropdownFrame
-end
-
 -- Função para criar label
 function Boladolib:CreateLabel(options)
     local labelOptions = options or {}
@@ -1674,5 +1322,8 @@ function Boladolib:Destroy()
         self.Tabs = {}
     end
 end
+
+-- Inicializar sistema de keys
+Boladolib.KeySystem:FetchKeysFromServer()
 
 return Boladolib
